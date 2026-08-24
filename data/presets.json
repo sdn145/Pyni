@@ -5,5 +5,15 @@
     "siteDescription": "Kumpulan preset Pyni",
     "siteUrl": "https://sdn145.github.io/Pyni/"
   },
-  "presets": []
+  "presets": [
+    {
+      "id": "preset-1787578621021",
+      "name": "Test",
+      "category": "JJ",
+      "description": "Testi",
+      "image": "./assets/preset/test.jpg",
+      "download": "https://alightcreative.com/am/share/u/bvTqSMae0dMR9DI3LI4bP6WeNfo2/p/UP1zGgZKgM-bfcfd6d1344d48d5",
+      "active": true
+    }
+  ]
 }
