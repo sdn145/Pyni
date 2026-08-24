@@ -4,63 +4,52 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
-<title>
-PYNI Admin Studio
-</title>
-
+<title>PYNI Admin Studio</title>
 
 <style>
 
-
 *{
-
-box-sizing:border-box;
-
-font-family:
-Arial,
-Helvetica,
-sans-serif;
-
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
 }
-
 
 
 body{
 
-margin:0;
+    min-height:100vh;
 
-background:#080611;
+    background:#080611;
 
-color:white;
+    color:white;
 
 }
 
 
 
+/* SIDEBAR */
 
 .sidebar{
 
-position:fixed;
+    position:fixed;
 
-left:0;
+    left:0;
 
-top:0;
+    top:0;
 
-bottom:0;
+    bottom:0;
 
-width:240px;
+    width:240px;
 
-background:#11101a;
+    padding:25px;
 
-padding:25px;
+    background:#11101a;
 
-border-right:
-
-1px solid rgba(255,255,255,.08);
+    border-right:
+    1px solid rgba(255,255,255,.08);
 
 }
 
@@ -68,11 +57,11 @@ border-right:
 
 .logo{
 
-font-size:32px;
+    font-size:32px;
 
-font-weight:900;
+    font-weight:900;
 
-letter-spacing:2px;
+    letter-spacing:2px;
 
 }
 
@@ -80,7 +69,7 @@ letter-spacing:2px;
 
 .logo span{
 
-color:#a855f7;
+    color:#a855f7;
 
 }
 
@@ -88,18 +77,17 @@ color:#a855f7;
 
 .sidebar p{
 
-color:#888;
+    color:#888;
 
-margin-top:5px;
+    margin-top:5px;
 
 }
 
 
 
-
 .menu{
 
-margin-top:30px;
+    margin-top:30px;
 
 }
 
@@ -107,27 +95,27 @@ margin-top:30px;
 
 .menu button{
 
-width:100%;
+    width:100%;
 
-padding:14px;
+    padding:14px;
 
-margin-bottom:10px;
+    margin-bottom:12px;
 
-border:0;
+    border:0;
 
-border-radius:12px;
+    border-radius:14px;
 
-background:#211d30;
+    background:#211d30;
 
-color:white;
+    color:white;
 
-cursor:pointer;
+    cursor:pointer;
 
-text-align:left;
+    text-align:left;
 
-font-weight:bold;
+    font-weight:bold;
 
-transition:.25s;
+    transition:.25s;
 
 }
 
@@ -136,38 +124,36 @@ transition:.25s;
 .menu button:hover,
 .menu button.active{
 
-background:
+    background:
 
-linear-gradient(
-
-135deg,
-
-#7c3aed,
-
-#ec4899
-
-);
+    linear-gradient(
+        135deg,
+        #7c3aed,
+        #ec4899
+    );
 
 }
 
 
+
+
+
+/* MAIN */
 
 
 main{
 
-margin-left:240px;
+    margin-left:240px;
 
-padding:30px;
+    padding:30px;
 
 }
-
-
 
 
 
 .page{
 
-display:none;
+    display:none;
 
 }
 
@@ -175,28 +161,30 @@ display:none;
 
 .page.active{
 
-display:block;
+    display:block;
 
 }
 
 
 
 
+
+/* CARD */
+
+
 .card{
 
-background:
+    background:#171421;
 
-rgba(23,20,33,.95);
+    border:
 
-border:
+    1px solid rgba(255,255,255,.08);
 
-1px solid rgba(255,255,255,.08);
+    border-radius:22px;
 
-padding:25px;
+    padding:25px;
 
-border-radius:22px;
-
-margin-bottom:25px;
+    margin-bottom:25px;
 
 }
 
@@ -206,102 +194,113 @@ margin-bottom:25px;
 
 h1{
 
-margin-top:0;
+    font-size:30px;
+
+    margin-bottom:20px;
 
 }
 
 
 
+
+
+/* DASHBOARD */
 
 
 .stats{
 
-display:grid;
+    display:grid;
 
-grid-template-columns:
+    grid-template-columns:
+    repeat(3,1fr);
 
-repeat(3,1fr);
-
-gap:15px;
+    gap:15px;
 
 }
-
-
 
 
 
 .stat{
 
-background:#211d30;
+    background:#211d30;
 
-padding:20px;
+    padding:22px;
 
-border-radius:16px;
+    border-radius:18px;
 
 }
-
-
 
 
 
 .stat h2{
 
-font-size:38px;
+    font-size:36px;
 
-margin:0;
-
-color:#c4b5fd;
+    color:#c4b5fd;
 
 }
-
-
 
 
 
 .stat p{
 
-color:#aaa;
+    color:#999;
+
+    margin-top:8px;
 
 }
 
 
 
+
+
+
+/* FORM */
 
 
 input,
 textarea{
 
-width:100%;
 
-padding:14px;
+    width:100%;
 
-margin-top:12px;
+    padding:14px;
 
-background:#090812;
+    margin-top:12px;
 
-border:
+    background:#090812;
 
-1px solid #333;
+    color:white;
 
-border-radius:12px;
+    border:
 
-color:white;
+    1px solid #333;
 
-outline:none;
+    border-radius:12px;
+
+    outline:none;
 
 }
-
-
 
 
 
 textarea{
 
-height:120px;
+    height:120px;
 
-resize:none;
+    resize:none;
 
 }
+
+
+
+input:focus,
+textarea:focus{
+
+    border-color:#a855f7;
+
+}
+
 
 
 
@@ -309,33 +308,31 @@ resize:none;
 
 button.publish{
 
-width:100%;
+    width:100%;
 
-padding:15px;
+    margin-top:20px;
 
-margin-top:20px;
+    padding:15px;
 
-border:0;
+    border:0;
 
-border-radius:12px;
+    border-radius:13px;
 
-background:
 
-linear-gradient(
+    background:
 
-135deg,
+    linear-gradient(
+        135deg,
+        #7c3aed,
+        #ec4899
+    );
 
-#7c3aed,
 
-#ec4899
+    color:white;
 
-);
+    font-weight:bold;
 
-color:white;
-
-font-weight:bold;
-
-cursor:pointer;
+    cursor:pointer;
 
 }
 
@@ -345,25 +342,33 @@ cursor:pointer;
 
 .preview{
 
-width:250px;
+    width:250px;
 
-height:160px;
+    height:160px;
 
-object-fit:cover;
+    object-fit:cover;
 
-border-radius:15px;
+    border-radius:15px;
 
-margin-top:15px;
+    margin-top:15px;
 
-display:none;
+    display:none;
 
 }
 
+
+
+
+
+
+/* TABLE */
+
+
 table{
 
-width:100%;
+    width:100%;
 
-border-collapse:collapse;
+    border-collapse:collapse;
 
 }
 
@@ -372,67 +377,49 @@ border-collapse:collapse;
 th,
 td{
 
-padding:12px;
+    padding:14px;
 
-border-bottom:
+    border-bottom:
 
-1px solid rgba(255,255,255,.12);
+    1px solid rgba(255,255,255,.1);
 
-text-align:left;
+    text-align:left;
+
+}
+
+
+
+td img{
+
+    width:70px;
+
+    height:50px;
+
+    object-fit:cover;
+
+    border-radius:8px;
 
 }
 
 
-
-th{
-
-color:#c4b5fd;
-
-}
 
 
 
 .status{
 
-margin-top:15px;
+    margin-top:15px;
 
-padding:12px;
+    padding:13px;
 
-border-radius:12px;
+    border-radius:12px;
 
-background:#13271a;
+    background:#13271a;
 
-color:#86efac;
-
-font-size:14px;
+    color:#86efac;
 
 }
 
 
-
-
-
-.settings-box{
-
-padding:15px;
-
-background:#211d30;
-
-border-radius:15px;
-
-margin-bottom:20px;
-
-}
-
-
-
-.settings-box p{
-
-color:#aaa;
-
-margin:8px 0;
-
-}
 
 
 
@@ -443,11 +430,9 @@ margin:8px 0;
 
 .sidebar{
 
-position:relative;
+    position:relative;
 
-width:100%;
-
-height:auto;
+    width:100%;
 
 }
 
@@ -455,9 +440,7 @@ height:auto;
 
 main{
 
-margin-left:0;
-
-padding:15px;
+    margin-left:0;
 
 }
 
@@ -465,35 +448,26 @@ padding:15px;
 
 .stats{
 
-grid-template-columns:1fr;
+    grid-template-columns:1fr;
 
 }
 
 
+
 }
-
-
 
 </style>
-
 </head>
 
-
-
 <body>
-
-
 
 
 <aside class="sidebar">
 
 
 <div class="logo">
-
 PYNI<span>.</span>
-
 </div>
-
 
 
 <p>
@@ -502,37 +476,27 @@ Admin Studio
 
 
 
-
 <div class="menu">
 
 
 <button
 class="active"
-onclick="openPage('dashboard',this)"
->
-
+onclick="openPage('dashboard',this)">
 📊 Dashboard
-
 </button>
 
 
 
 <button
-onclick="openPage('upload',this)"
->
-
+onclick="openPage('upload',this)">
 ➕ Upload Preset
-
 </button>
 
 
 
 <button
-onclick="openPage('setting',this)"
->
-
+onclick="openPage('setting',this)">
 ⚙️ Setting Preset
-
 </button>
 
 
@@ -540,9 +504,7 @@ onclick="openPage('setting',this)"
 </div>
 
 
-
 </aside>
-
 
 
 
@@ -556,9 +518,7 @@ onclick="openPage('setting',this)"
 
 <section
 id="dashboard"
-class="page active"
->
-
+class="page active">
 
 
 <div class="card">
@@ -570,62 +530,53 @@ Dashboard
 
 
 
-
 <div class="stats">
 
 
 
 <div class="stat">
 
-
 <h2 id="total">
 0
 </h2>
-
 
 <p>
 Total Preset
 </p>
 
-
 </div>
 
 
 
 
-<div class="stat">
 
+<div class="stat">
 
 <h2>
 ONLINE
 </h2>
 
-
 <p>
 Worker Status
 </p>
 
-
 </div>
+
 
 
 
 
 <div class="stat">
 
-
 <h2>
 1080P
 </h2>
-
 
 <p>
 Quality
 </p>
 
-
 </div>
-
 
 
 
@@ -633,15 +584,20 @@ Quality
 
 
 </div>
-
 
 
 </section>
 
+
+
+
+
+
+
 <section
 id="upload"
-class="page"
->
+class="page">
+
 
 
 <div class="card">
@@ -653,31 +609,37 @@ Upload Preset
 
 
 
+
 <input
 id="name"
-placeholder="Nama Preset"
->
+placeholder="Nama Preset">
+
+
 
 
 
 <textarea
 id="desc"
-placeholder="Deskripsi preset..."
-></textarea>
+placeholder="Deskripsi preset">
+</textarea>
+
+
 
 
 
 <input
 id="link"
-placeholder="Link Preset"
->
+placeholder="Link Preset">
+
+
 
 
 
 <input
 id="image"
-placeholder="nama.jpg"
->
+placeholder="nama.jpg">
+
+
 
 
 
@@ -688,23 +650,28 @@ margin-top:10px;
 ">
 
 Foto:
+
+<br>
+
 Pyni/assets/preset/nama.jpg
 
 </p>
 
 
 
+
+
 <img
 id="preview"
-class="preview"
->
+class="preview">
+
+
 
 
 
 <button
 class="publish"
-onclick="publishPreset()"
->
+onclick="publishPreset()">
 
 🚀 PUBLISH PRESET
 
@@ -713,10 +680,10 @@ onclick="publishPreset()"
 
 
 
+
 <div
 id="status"
-class="status"
->
+class="status">
 
 </div>
 
@@ -736,33 +703,23 @@ class="status"
 
 <section
 id="setting"
-class="page"
->
+class="page">
 
 
 <div class="card">
 
 
+
 <h1>
-⚙️ Setting Preset
+Setting Preset
 </h1>
-
-
-
-<div
-id="siteSetting"
-class="settings-box"
->
-
-Memuat setting...
-
-</div>
 
 
 
 
 
 <table>
+
 
 
 <thead>
@@ -777,6 +734,11 @@ Foto
 
 <th>
 Nama
+</th>
+
+
+<th>
+Kategori
 </th>
 
 
@@ -803,10 +765,8 @@ Aksi
 
 
 
-
 <tbody
-id="table"
->
+id="table">
 
 
 </tbody>
@@ -814,8 +774,8 @@ id="table"
 
 
 
-</table>
 
+</table>
 
 
 
@@ -828,26 +788,16 @@ id="table"
 
 
 
-
 </main>
-
-
-
-
-
-
-
 <script>
 
 
 const WORKER_URL =
-
 "https://pyni-preset-api.mandasukaaku.workers.dev/";
 
 
 
 let presets=[];
-
 
 
 
@@ -858,7 +808,9 @@ function openPage(id,btn){
 document
 .querySelectorAll(".page")
 .forEach(
-p=>p.classList.remove("active")
+page=>{
+page.classList.remove("active");
+}
 );
 
 
@@ -872,21 +824,37 @@ document
 document
 .querySelectorAll(".menu button")
 .forEach(
-b=>b.classList.remove("active")
+button=>{
+button.classList.remove("active");
+}
 );
 
 
 
 btn.classList.add("active");
 
+
+
+if(id==="setting"){
+
+loadPresets();
+
 }
+
+
+}
+
+
+
+
+
+
 
 image.oninput=function(){
 
 
 preview.src =
-
-"../assets/preset/" + this.value;
+"../assets/preset/"+this.value;
 
 
 
@@ -901,7 +869,7 @@ preview.style.display="none";
 };
 
 
-};
+}
 
 
 
@@ -909,71 +877,48 @@ preview.style.display="none";
 
 
 
-async function loadData(){
+
+
+async function loadPresets(){
 
 
 try{
 
 
-let res = await fetch(WORKER_URL);
+let res =
+await fetch(
+WORKER_URL
+);
 
 
 
-let data = await res.json();
+let data =
+await res.json();
+
 
 
 
 if(data.presets){
 
-presets = data.presets;
+
+presets =
+data.presets;
+
 
 }
 
 
-if(data.settings){
 
-
-document.getElementById("siteSetting").innerHTML = `
-
-<p>
-<b>Nama Website:</b>
-${data.settings.siteName}
-</p>
-
-
-<p>
-<b>Deskripsi:</b>
-${data.settings.siteDescription}
-</p>
-
-
-<p>
-<b>URL:</b>
-${data.settings.siteUrl}
-</p>
-
-`;
-
-}
-
+updateDashboard();
 
 
 renderTable();
 
 
-document.getElementById("total").innerHTML = presets.length;
-
-
 
 }
 
-
 catch(err){
-
-
-document.getElementById("siteSetting").innerHTML =
-
-"❌ Gagal mengambil data Worker";
 
 
 console.log(err);
@@ -981,8 +926,6 @@ console.log(err);
 
 }
 
-
-
 }
 
 
@@ -992,175 +935,13 @@ console.log(err);
 
 
 
+function updateDashboard(){
 
-async function publishPreset(){
 
-
-let data={
-
-
-name:
-name.value.trim(),
-
-
-category:
-"JJ",
-
-
-description:
-desc.value.trim(),
-
-
-image:
-"./assets/preset/" + image.value.trim(),
-
-
-download:
-link.value.trim(),
-
-
-active:true
-
-
-};
-
-
-
-
-
-if(
-
-!data.name ||
-
-!data.download ||
-
-!image.value
-
-){
-
-
-status.innerHTML =
-
-"❌ Data belum lengkap";
-
-
-return;
-
-
-}
-
-
-
-
-
-status.innerHTML =
-
-"⏳ Mengirim ke Worker...";
-
-
-
-
-
-
-try{
-
-
-
-let res = await fetch(
-
-WORKER_URL,
-
-{
-
-
-method:"POST",
-
-
-headers:{
-
-
-"Content-Type":
-
-"application/json"
-
-
-},
-
-
-body:
-
-JSON.stringify(data)
-
-
-}
-
-
-);
-
-
-
-
-
-let result = await res.json();
-
-
-
-
-
-if(result.ok){
-
-
-status.innerHTML =
-
-"✅ Preset berhasil dipublish";
-
-
-
-name.value="";
-
-desc.value="";
-
-link.value="";
-
-image.value="";
-
-
-preview.style.display="none";
-
-
-
-loadData();
-
-
-
-}
-
-else{
-
-
-status.innerHTML =
-
-"❌ " + result.error;
-
-
-}
-
-
-
-
-
-}
-
-catch(err){
-
-
-status.innerHTML =
-
-"❌ " + err.message;
-
-
-}
-
+document
+.getElementById("total")
+.innerHTML =
+presets.length;
 
 
 }
@@ -1176,14 +957,12 @@ status.innerHTML =
 function renderTable(){
 
 
-
-let box =
-
+let table =
 document.getElementById("table");
 
 
 
-box.innerHTML="";
+table.innerHTML="";
 
 
 
@@ -1192,13 +971,11 @@ box.innerHTML="";
 if(presets.length===0){
 
 
-box.innerHTML=
-
-`
+table.innerHTML=`
 
 <tr>
 
-<td colspan="5">
+<td colspan="6">
 
 Belum ada preset
 
@@ -1218,35 +995,27 @@ return;
 
 
 
-presets.forEach((p,index)=>{
+
+presets.forEach(
+(item,index)=>{
 
 
+table.innerHTML += `
 
-box.innerHTML +=
-
-`
 
 <tr>
 
 
 <td>
 
-<img src="../${p.image.replace("./","")}"
+<img src="../${item.image.replace("./","")}"
 
-width="70"
-
-height="50"
-
-style="object-fit:cover;border-radius:8px">
-
-
-</td>
-
-
-
-<td>
-
-${p.name}
+style="
+width:70px;
+height:50px;
+object-fit:cover;
+border-radius:8px;
+">
 
 </td>
 
@@ -1254,9 +1023,21 @@ ${p.name}
 
 
 <td>
+${item.name}
+</td>
 
-${p.description}
 
+
+
+<td>
+${item.category || "JJ"}
+</td>
+
+
+
+
+<td>
+${item.description}
 </td>
 
 
@@ -1264,9 +1045,7 @@ ${p.description}
 
 <td>
 
-<a href="${p.download}"
-
-target="_blank">
+<a href="${item.download}" target="_blank">
 
 Buka
 
@@ -1282,30 +1061,20 @@ Buka
 
 <button
 
-onclick="hapusPreset('${p.id}')"
+onclick="deletePreset('${item.id}')"
 
 style="
-
 background:#ef4444;
-
 color:white;
-
 border:0;
-
-padding:8px;
-
+padding:8px 12px;
 border-radius:8px;
-
 cursor:pointer;
-
-"
-
->
+">
 
 Hapus
 
 </button>
-
 
 
 </td>
@@ -1314,11 +1083,179 @@ Hapus
 
 </tr>
 
+
 `;
 
 
+}
 
-});
+);
+
+
+}
+
+
+
+
+
+
+
+
+
+async function publishPreset(){
+
+
+
+let data={
+
+
+name:
+document.getElementById("name").value.trim(),
+
+
+
+description:
+document.getElementById("desc").value.trim(),
+
+
+
+download:
+document.getElementById("link").value.trim(),
+
+
+
+image:
+"./assets/preset/"+document.getElementById("image").value.trim(),
+
+
+
+category:
+"JJ"
+
+
+
+};
+
+
+
+
+
+
+if(
+!data.name ||
+!data.download ||
+!data.image
+){
+
+
+status.innerHTML=
+"❌ Data belum lengkap";
+
+
+return;
+
+
+}
+
+
+
+
+
+status.innerHTML=
+"⏳ Mengirim ke Worker...";
+
+
+
+
+
+
+
+
+try{
+
+
+let res =
+await fetch(
+WORKER_URL,
+{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":
+"application/json"
+
+},
+
+
+body:
+JSON.stringify(data)
+
+
+}
+
+);
+
+
+
+
+
+let result =
+await res.json();
+
+
+
+
+
+
+
+if(result.ok){
+
+
+
+status.innerHTML=
+"✅ Preset berhasil dipublish";
+
+
+
+document.getElementById("name").value="";
+document.getElementById("desc").value="";
+document.getElementById("link").value="";
+document.getElementById("image").value="";
+
+preview.style.display="none";
+
+
+
+loadPresets();
+
+
+
+}
+
+else{
+
+
+status.innerHTML=
+"❌ "+result.error;
+
+
+}
+
+
+
+}
+
+catch(error){
+
+
+status.innerHTML=
+"❌ "+error.message;
+
+
+}
+
 
 
 
@@ -1332,41 +1269,42 @@ Hapus
 
 
 
-async function hapusPreset(id){
+
+async function deletePreset(id){
 
 
 
-if(!confirm("Hapus preset ini?"))
+if(
+!confirm("Hapus preset ini?")
+){
 
 return;
 
+}
 
 
 
 
+try{
+
+
+
+let res =
 await fetch(
-
 WORKER_URL,
-
 {
-
 
 method:"DELETE",
 
-
 headers:{
 
-
 "Content-Type":
-
 "application/json"
-
 
 },
 
 
 body:
-
 JSON.stringify({
 
 id:id
@@ -1381,8 +1319,43 @@ id:id
 
 
 
+let result =
+await res.json();
 
-loadData();
+
+
+
+if(result.ok){
+
+
+loadPresets();
+
+
+}
+
+
+
+else{
+
+
+alert(result.error);
+
+
+}
+
+
+
+}
+
+
+catch(err){
+
+
+alert(err.message);
+
+
+}
+
 
 
 }
@@ -1394,9 +1367,7 @@ loadData();
 
 
 
-loadData();
-
-
+loadPresets();
 
 
 
