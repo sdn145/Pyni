@@ -23,6 +23,15 @@
       "image": "./assets/preset/test.jpg",
       "download": "https://alightcreative.com/am/share/u/HOOqSCWvegQQAJaKpPpOutWquMu1/p/XlCvUW5ze8-a614ba8f95b94bfe",
       "active": true
+    },
+    {
+      "id": "preset-1787573905697",
+      "name": "Test",
+      "category": "JJ",
+      "description": "Testt",
+      "image": "./assets/preset/test.jpg",
+      "download": "https://alightcreative.com/am/share/u/ORedvT0kuPbIaRkh2ZQQef2oAju2/p/oSdMFDryih-5038213ac6c8f450",
+      "active": true
     }
   ]
 }
