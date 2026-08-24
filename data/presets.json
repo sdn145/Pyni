@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "settings": {
+    "siteName": "Pyni Preset",
+    "siteDescription": "Kumpulan preset Pyni",
+    "siteUrl": "https://sdn145.github.io/Pyni/"
+  },
+  "presets": [
+    {
+      "id": "preset-001",
+      "name": "Shake",
+      "category": "Shake",
+      "description": "Preset shake untuk video.",
+      "image": "./assets/preset/shake.jpg",
+      "download": "#",
+      "active": true
+    }
+  ]
+}
