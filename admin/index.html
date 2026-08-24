@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>PYNI Admin Studio</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+margin:0;
+background:#080611;
+color:white;
+}
+
+
+.sidebar{
+
+position:fixed;
+left:0;
+top:0;
+bottom:0;
+width:230px;
+background:#11101a;
+padding:25px;
+border-right:1px solid #292536;
+
+}
+
+
+.logo{
+
+font-size:30px;
+font-weight:900;
+
+}
+
+.logo span{
+
+color:#a855f7;
+
+}
+
+
+.sidebar p{
+
+color:#888;
+
+}
+
+
+.menu button{
+
+width:100%;
+padding:14px;
+margin:8px 0;
+
+border:0;
+border-radius:12px;
+
+background:#211d30;
+color:white;
+
+cursor:pointer;
+text-align:left;
+font-weight:bold;
+
+}
+
+
+.menu button.active,
+.menu button:hover{
+
+background:linear-gradient(
+135deg,
+#7c3aed,
+#ec4899
+);
+
+}
+
+
+
+main{
+
+margin-left:230px;
+padding:30px;
+
+}
+
+
+
+.page{
+
+display:none;
+
+}
+
+
+.page.active{
+
+display:block;
+
+}
+
+
+
+.card{
+
+background:#171421;
+
+border:1px solid rgba(255,255,255,.08);
+
+padding:25px;
+
+border-radius:20px;
+
+margin-bottom:25px;
+
+}
+
+
+
+.stats{
+
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px;
+
+}
+
+
+
+.stat{
+
+background:#211d30;
+padding:20px;
+border-radius:15px;
+
+}
+
+
+
+.stat h2{
+
+font-size:35px;
+color:#c4b5fd;
+
+}
+
+
+
+input,
+textarea{
+
+width:100%;
+
+padding:14px;
+
+margin-top:12px;
+
+background:#090812;
+
+border:1px solid #333;
+
+border-radius:12px;
+
+color:white;
+
+}
+
+
+
+textarea{
+
+height:120px;
+resize:none;
+
+}
+
+
+
+button.publish{
+
+width:100%;
+
+padding:15px;
+
+margin-top:20px;
+
+border:0;
+
+border-radius:12px;
+
+background:linear-gradient(
+135deg,
+#7c3aed,
+#ec4899
+);
+
+color:white;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+
+
+.preview{
+
+width:250px;
+
+height:160px;
+
+object-fit:cover;
+
+border-radius:15px;
+
+margin-top:15px;
+
+display:none;
+
+}
+
+
+
+table{
+
+width:100%;
+border-collapse:collapse;
+
+}
+
+
+
+th,td{
+
+padding:12px;
+
+border-bottom:1px solid #333;
+
+text-align:left;
+
+}
+
+
+
+.status{
+
+margin-top:15px;
+
+padding:12px;
+
+border-radius:10px;
+
+background:#13271a;
+
+color:#86efac;
+
+}
+
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<aside class="sidebar">
+
+<div class="logo">
+PYNI<span>.</span>
+</div>
+
+<p>
+Admin Studio
+</p>
+
+
+<div class="menu">
+
+<button class="active"
+onclick="openPage('dashboard',this)">
+📊 Dashboard
+</button>
+
+
+<button onclick="openPage('upload',this)">
+➕ Upload Preset
+</button>
+
+
+<button onclick="openPage('setting',this)">
+⚙️ Setting Preset
+</button>
+
+
+</div>
+
+</aside>
+
+
+
+<main>
+
+
+<section id="dashboard" class="page active">
+
+<div class="card">
+
+<h1>
+Dashboard
+</h1>
+
+
+<div class="stats">
+
+
+<div class="stat">
+
+<h2 id="total">
+0
+</h2>
+
+<p>
+Total Preset
+</p>
+
+</div>
+
+
+<div class="stat">
+
+<h2>
+ONLINE
+</h2>
+
+<p>
+Worker Status
+</p>
+
+</div>
+
+
+<div class="stat">
+
+<h2>
+1080P
+</h2>
+
+<p>
+Quality
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+
+<section id="upload" class="page">
+
+
+<div class="card">
+
+<h1>
+Upload Preset
+</h1>
+
+
+<input
+id="name"
+placeholder="Nama Preset"
+>
+
+
+<textarea
+id="desc"
+placeholder="Deskripsi">
+</textarea>
+
+
+<input
+id="link"
+placeholder="Link Preset"
+>
+
+
+<input
+id="image"
+placeholder="nama.jpg"
+>
+
+
+<p style="color:#888;font-size:13px">
+Foto:
+Pyni/assets/preset/nama.jpg
+</p>
+
+
+<img
+id="preview"
+class="preview"
+>
+
+
+<button
+class="publish"
+onclick="publishPreset()">
+
+🚀 PUBLISH PRESET
+
+</button>
+
+
+<div
+id="status"
+class="status">
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+<section id="setting" class="page">
+
+
+<div class="card">
+
+<h1>
+Setting Preset
+</h1>
+
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Foto</th>
+<th>Nama</th>
+<th>Deskripsi</th>
+<th>Link</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="table">
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+</section>
+
+
+</main>
+
+
+
+
+<script>
+
+
+const WORKER_URL =
+"https://pyni-preset-api.mandasukaaku.workers.dev/";
+
+
+
+function openPage(id,btn){
+
+document
+.querySelectorAll(".page")
+.forEach(
+p=>p.classList.remove("active")
+);
+
+
+document
+.getElementById(id)
+.classList.add("active");
+
+
+document
+.querySelectorAll(".menu button")
+.forEach(
+b=>b.classList.remove("active")
+);
+
+
+btn.classList.add("active");
+
+}
+
+
+
+
+image.oninput=function(){
+
+preview.src =
+"../assets/preset/" +
+this.value;
+
+
+preview.style.display="block";
+
+
+preview.onerror=function(){
+
+preview.style.display="none";
+
+}
+
+}
+
+
+
+
+async function publishPreset(){
+
+
+let data={
+
+name:
+name.value.trim(),
+
+description:
+desc.value.trim(),
+
+link:
+link.value.trim(),
+
+image:
+image.value.trim()
+
+};
+
+
+
+if(
+!data.name ||
+!data.link ||
+!data.image
+){
+
+status.innerHTML =
+"❌ Data belum lengkap";
+
+return;
+
+}
+
+
+
+status.innerHTML =
+"⏳ Mengirim preset...";
+
+
+
+try{
+
+
+let res =
+await fetch(
+WORKER_URL,
+{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":
+"application/json"
+
+},
+
+body:
+JSON.stringify(data)
+
+}
+
+);
+
+
+
+let result =
+await res.json();
+
+
+
+if(result.ok){
+
+status.innerHTML =
+"✅ Preset berhasil dipublish";
+
+
+
+name.value="";
+desc.value="";
+link.value="";
+image.value="";
+
+preview.style.display="none";
+
+
+}
+
+else{
+
+status.innerHTML =
+"❌ "+result.error;
+
+}
+
+
+
+}
+
+catch(err){
+
+status.innerHTML =
+"❌ "+err.message;
+
+}
+
+
+
+}
+
+
+
+</script>
+
+
+</body>
+</html>
