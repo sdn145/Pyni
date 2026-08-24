@@ -1,394 +1,7 @@
-<!DOCTYPE html>
-<html lang="id">
-
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>PYNI Admin Dashboard</title>
-
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-
-    min-height:100vh;
-
-    font-family:Arial,Helvetica,sans-serif;
-
-    background:#080611;
-
-    color:white;
-
-    padding:25px;
-
-}
-
-
-.container{
-
-    width:min(700px,100%);
-
-    margin:auto;
-
-}
-
-
-
-.card{
-
-    background:
-    rgba(20,17,35,.9);
-
-    border:
-    1px solid rgba(255,255,255,.1);
-
-    border-radius:22px;
-
-    padding:25px;
-
-    box-shadow:
-    0 20px 60px rgba(0,0,0,.4);
-
-}
-
-
-
-h1{
-
-    font-size:32px;
-
-    margin-bottom:8px;
-
-}
-
-
-
-.subtitle{
-
-    color:#94a3b8;
-
-    margin-bottom:25px;
-
-}
-
-
-
-label{
-
-    display:block;
-
-    margin-top:18px;
-
-    margin-bottom:8px;
-
-    font-weight:bold;
-
-}
-
-
-
-input,
-textarea{
-
-    width:100%;
-
-    padding:14px;
-
-    border-radius:12px;
-
-    border:
-
-    1px solid rgba(255,255,255,.12);
-
-    background:#09090f;
-
-    color:white;
-
-    outline:none;
-
-}
-
-
-
-textarea{
-
-    height:120px;
-
-    resize:none;
-
-}
-
-
-
-button{
-
-    width:100%;
-
-    margin-top:20px;
-
-    padding:15px;
-
-    border:0;
-
-    border-radius:12px;
-
-    background:
-
-    linear-gradient(
-    135deg,
-    #7c3aed,
-    #ec4899
-    );
-
-    color:white;
-
-    font-weight:bold;
-
-    cursor:pointer;
-
-}
-
-
-
-.preview{
-
-    display:none;
-
-    width:100%;
-
-    max-height:280px;
-
-    object-fit:cover;
-
-    margin-top:20px;
-
-    border-radius:15px;
-
-}
-
-
-
-.list{
-
-    margin-top:30px;
-
-}
-
-
-
-.item{
-
-    margin-top:15px;
-
-    padding:18px;
-
-    border-radius:15px;
-
-    background:
-
-    rgba(255,255,255,.05);
-
-}
-
-
-
-.item img{
-
-    width:100%;
-
-    height:160px;
-
-    object-fit:cover;
-
-    border-radius:12px;
-
-    margin-bottom:12px;
-
-}
-
-
-
-.delete{
-
-    background:#ef4444;
-
-}
-
-
-
-.status{
-
-    margin-top:20px;
-
-    padding:14px;
-
-    border-radius:12px;
-
-    background:#13271a;
-
-    color:#86efac;
-
-    display:none;
-
-}
-
-
-</style>
-
-</head>
-
-
-<body>
-
-
-<div class="container">
-
-
-<div class="card">
-
-
-<h1>
-🚀 PYNI Admin
-</h1>
-
-
-<div class="subtitle">
-Upload preset ke website utama
-</div>
-
-
-
-<label>
-Nama Preset
-</label>
-
-<input
-id="name"
-placeholder="Contoh: Shake Velocity"
->
-
-
-
-<label>
-Deskripsi
-</label>
-
-<textarea
-id="desc"
-placeholder="Deskripsi preset..."
-></textarea>
-
-
-
-<label>
-Link Preset
-</label>
-
-<input
-id="link"
-placeholder="https://..."
->
-
-
-
-<label>
-Foto (nama.jpg)
-</label>
-
-<input
-id="image"
-placeholder="shake.jpg"
->
-
-
-
-<div style="
-margin-top:10px;
-color:#94a3b8;
-font-size:13px;
-">
-
-Foto harus berada di:
-
-<br>
-
-<b>
-Pyni/assets/preset/
-</b>
-
-</div>
-
-
-
-<img
-id="preview"
-class="preview"
->
-
-
-
-<button onclick="publishPreset()">
-
-🚀 PUBLISH PRESET
-
-</button>
-
-
-
-<div
-id="status"
-class="status"
->
-
-</div>
-
-
-
-</div>
-
-
-
-
-
-<div class="card list">
-
-
-<h2>
-📦 Preset Tersimpan
-</h2>
-
-
-<div id="presetList">
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-
-
-
 <script>
 
-
-let presets =
-JSON.parse(
-localStorage.getItem("pyni_presets")
-||
-"[]"
-);
-
+const WORKER_URL =
+"https://pyni-preset-api.mandasukaaku.workers.dev/";
 
 
 const imageInput =
@@ -404,29 +17,23 @@ imageInput.addEventListener(
 "input",
 ()=>{
 
-
-let file =
+const file =
 imageInput.value.trim();
 
 
 if(!file){
 
 preview.style.display="none";
-
 return;
 
 }
 
 
-
 preview.src =
-"../assets/preset/" +
-file;
-
+"../assets/preset/" + file;
 
 
 preview.style.display="block";
-
 
 
 preview.onerror=()=>{
@@ -442,40 +49,34 @@ preview.style.display="none";
 
 
 
+async function publishPreset(){
 
 
-function publishPreset(){
-
-
-let name =
+const name =
 document.getElementById("name")
 .value.trim();
 
 
-let desc =
+const desc =
 document.getElementById("desc")
 .value.trim();
 
 
-let link =
+const link =
 document.getElementById("link")
 .value.trim();
 
 
-let image =
+const image =
 document.getElementById("image")
 .value.trim();
 
 
 
-if(
-!name ||
-!link ||
-!image
-){
+if(!name || !link || !image){
 
-alert(
-"Nama, Link, dan Foto wajib diisi"
+showStatus(
+"❌ Nama, Link, dan Foto wajib diisi"
 );
 
 return;
@@ -484,7 +85,31 @@ return;
 
 
 
-let data={
+showStatus(
+"⏳ Mengirim preset ke server..."
+);
+
+
+
+try{
+
+
+const response =
+await fetch(
+WORKER_URL,
+{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":
+"application/json"
+
+},
+
+
+body:JSON.stringify({
 
 name:name,
 
@@ -494,26 +119,33 @@ link:link,
 
 image:image
 
-};
+})
 
 
-
-presets.push(data);
-
-
-
-localStorage.setItem(
-
-"pyni_presets",
-
-JSON.stringify(presets)
+}
 
 );
 
 
 
+const result =
+await response.json();
+
+
+
+if(!result.ok){
+
+throw new Error(
+result.error ||
+"Publish gagal"
+);
+
+}
+
+
+
 showStatus(
-"✅ Preset berhasil ditambahkan"
+"✅ Preset berhasil dipublish ke Pyni!"
 );
 
 
@@ -538,124 +170,85 @@ preview.style.display="none";
 
 
 
-render();
+loadPreset();
+
+
+
+}
+catch(error){
+
+
+showStatus(
+"❌ Error:\n" +
+error.message
+);
+
+
+}
+
 
 }
 
 
 
 
+async function loadPreset(){
 
-function render(){
 
-
-let box =
+const box =
 document.getElementById(
 "presetList"
 );
 
 
-
-box.innerHTML="";
-
-
-
-if(
-presets.length===0
-){
-
-box.innerHTML=
-
-"<p style='color:#94a3b8'>Belum ada preset</p>";
-
-return;
-
-}
+box.innerHTML =
+"<p style='color:#94a3b8'>Memuat preset...</p>";
 
 
 
-presets.forEach(
-(item,index)=>{
+try{
 
 
-box.innerHTML += `
-
-<div class="item">
-
-
-<img src="../assets/preset/${item.image}">
-
-
-<h3>
-${item.name}
-</h3>
-
-
-<p style="
-color:#94a3b8;
-margin-top:8px;
-">
-
-${item.description}
-
-</p>
-
-
-<p style="
-margin-top:10px;
-font-size:13px;
-">
-
-${item.link}
-
-</p>
-
-
-
-<button
-class="delete"
-onclick="hapus(${index})"
->
-
-Hapus
-
-</button>
-
-
-</div>
-
-`;
-
-
-}
-
+const response =
+await fetch(
+WORKER_URL
 );
 
 
-}
+
+const data =
+await response.json();
 
 
 
+if(!data.ok){
 
-function hapus(index){
-
-
-presets.splice(index,1);
-
-
-localStorage.setItem(
-
-"pyni_presets",
-
-JSON.stringify(presets)
-
+throw new Error(
+"Data tidak tersedia"
 );
 
+}
 
-render();
+
+
+box.innerHTML =
+"<p style='color:#94a3b8'>Preset tersimpan di GitHub</p>";
+
 
 
 }
+catch(error){
+
+
+box.innerHTML =
+"<p style='color:#ff9da8'>Gagal memuat data</p>";
+
+
+}
+
+
+}
+
 
 
 
@@ -663,36 +256,34 @@ render();
 function showStatus(text){
 
 
-let box =
+const box =
 document.getElementById(
 "status"
 );
 
 
-box.style.display="block";
+box.style.display =
+"block";
 
-box.innerHTML=text;
+
+box.innerHTML =
+text;
+
 
 
 setTimeout(()=>{
 
-box.style.display="none";
+box.style.display =
+"none";
 
-},3000);
+},4000);
 
 
 }
 
 
 
-
-render();
-
+loadPreset();
 
 
 </script>
-
-
-</body>
-
-</html>
