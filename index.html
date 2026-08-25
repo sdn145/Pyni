@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080611">
+<title>PYNI — Free Preset • Buy Preset • Downloader</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,Helvetica,sans-serif;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+min-height:100vh;
+background:#080611;
+color:white;
+overflow-x:hidden;
+}
+
+.background{
+position:fixed;
+inset:0;
+z-index:-5;
+background:linear-gradient(180deg,rgba(7,5,16,.65),rgba(7,5,16,.95)),url("./assets/background.jpg") center/cover no-repeat;
+}
+
+.navbar{
+position:fixed;
+top:0;
+left:0;
+right:0;
+z-index:100;
+padding:14px 5%;
+display:flex;
+align-items:center;
+justify-content:space-between;
+background:rgba(7,6,14,.75);
+backdrop-filter:blur(20px);
+border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.brand{
+display:flex;
+align-items:center;
+gap:10px;
+color:white;
+text-decoration:none;
+}
+
+.brand img{
+width:44px;
+height:44px;
+object-fit:cover;
+border-radius:13px;
+}
+
+.brand strong{
+font-size:20px;
+letter-spacing:2px;
+}
+
+.brand span{
+color:#a78bfa;
+}
+
+.nav-menu{
+display:flex;
+gap:10px;
+}
+
+.nav-menu a{
+color:#cbd5e1;
+text-decoration:none;
+font-size:13px;
+font-weight:bold;
+padding:10px 13px;
+border-radius:10px;
+transition:.2s;
+}
+
+.nav-menu a:hover{
+background:rgba(255,255,255,.08);
+color:white;
+}
+
+.hero{
+min-height:100vh;
+padding:150px 20px 80px;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+}
+
+.hero-content{
+width:min(1000px,100%);
+}
+
+.badge{
+display:inline-flex;
+align-items:center;
+gap:8px;
+padding:9px 16px;
+border-radius:999px;
+background:rgba(139,92,246,.15);
+border:1px solid rgba(139,92,246,.3);
+color:#c4b5fd;
+font-size:12px;
+font-weight:bold;
+margin-bottom:25px;
+}
+
+.status-dot{
+width:8px;
+height:8px;
+border-radius:50%;
+background:#22c55e;
+box-shadow:0 0 15px #22c55e;
+}
+
+.hero h1{
+font-size:clamp(50px,10vw,110px);
+line-height:.95;
+letter-spacing:-5px;
+font-weight:900;
+margin-bottom:25px;
+}
+
+.hero h1 span{
+background:linear-gradient(90deg,#fff,#c4b5fd,#f472b6);
+-webkit-background-clip:text;
+background-clip:text;
+color:transparent;
+}
+
+.hero-description{
+max-width:650px;
+margin:auto;
+color:#aeb6c8;
+line-height:1.8;
+font-size:16px;
+}
+
+.hero-buttons{
+display:flex;
+justify-content:center;
+gap:12px;
+margin-top:30px;
+}
+
+.btn{
+padding:14px 21px;
+border-radius:12px;
+text-decoration:none;
+font-size:13px;
+font-weight:bold;
+display:inline-block;
+border:none;
+cursor:pointer;
+}
+
+.btn-main{
+background:linear-gradient(135deg,#7c3aed,#ec4899);
+color:white;
+}
+
+.btn-outline{
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.12);
+color:white;
+}
+
+.stats{
+width:min(900px,92%);
+margin:-40px auto 80px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px;
+}
+
+.stat{
+padding:24px;
+text-align:center;
+border-radius:18px;
+background:rgba(13,12,23,.75);
+border:1px solid rgba(255,255,255,.08);
+}
+
+.stat-number{
+font-size:28px;
+font-weight:900;
+color:#c4b5fd;
+}
+
+.stat-label{
+font-size:12px;
+color:#858da1;
+margin-top:6px;
+}
+
+.container{
+width:min(1100px,92%);
+margin:auto;
+}
+
+.section{
+padding:75px 0;
+}
+
+.section-heading{
+margin-bottom:25px;
+}
+
+.section-heading .mini{
+color:#a78bfa;
+font-size:11px;
+font-weight:900;
+letter-spacing:2px;
+}
+
+.section-heading h2{
+margin-top:8px;
+font-size:clamp(28px,5vw,45px);
+}
+
+.section-heading p{
+color:#858da1;
+margin-top:8px;
+font-size:14px;
+}
+
+.preset-box{
+padding:25px;
+border-radius:23px;
+background:rgba(10,9,18,.8);
+border:1px solid rgba(255,255,255,.09);
+}
+
+.preset-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+.preset-count{
+color:#81899c;
+font-size:12px;
+}
+
+.search{
+width:100%;
+padding:14px 16px;
+margin-bottom:20px;
+color:white;
+background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.09);
+border-radius:12px;
+outline:none;
+}
+
+.preset-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+gap:16px;
+}
+
+.feature-card{
+padding:25px;
+border-radius:22px;
+background:linear-gradient(145deg,rgba(24,21,38,.9),rgba(10,9,17,.85));
+border:1px solid rgba(255,255,255,.09);
+position:relative;
+}
+
+.price-tag{
+display:inline-block;
+padding:4px 10px;
+border-radius:8px;
+background:linear-gradient(135deg, #f59e0b, #d97706);
+color:white;
+font-weight:bold;
+font-size:12px;
+margin-bottom:10px;
+}
+
+.empty{
+padding:70px 20px;
+text-align:center;
+grid-column:1/-1;
+}
+
+.empty-icon{
+font-size:50px;
+margin-bottom:15px;
+}
+
+/* TIKTOK DOWNLOADER STYLES */
+.downloader-box{
+padding:25px;
+border-radius:23px;
+background:rgba(11,10,18,.84);
+border:1px solid rgba(255,255,255,.09);
+}
+
+.download-form{
+display:flex;
+gap:10px;
+}
+
+.download-form input{
+flex:1;
+padding:15px;
+background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.09);
+border-radius:12px;
+color:white;
+outline:none;
+}
+
+.download-form input:focus{
+border-color:#a78bfa;
+}
+
+.download-form button{
+padding:0 22px;
+border:0;
+border-radius:12px;
+color:white;
+background:linear-gradient(135deg,#7c3aed,#ec4899);
+font-weight:bold;
+cursor:pointer;
+}
+
+.tiktok-result-card{
+display:none;
+margin-top:20px;
+padding:20px;
+border-radius:18px;
+background:linear-gradient(160deg, rgba(20, 16, 36, 0.95), rgba(11, 9, 20, 0.98));
+border:1px solid rgba(167,139,250,0.35);
+}
+
+.tiktok-preview-box{
+display:flex;
+gap:16px;
+align-items:center;
+flex-wrap:wrap;
+margin-bottom:18px;
+padding-bottom:16px;
+border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.tiktok-thumb{
+width:100px;
+height:130px;
+border-radius:12px;
+object-fit:cover;
+border:1px solid rgba(255,255,255,0.15);
+}
+
+.tiktok-info{
+flex:1;
+min-width:200px;
+}
+
+.tiktok-author{
+font-size:15px;
+font-weight:bold;
+color:#fff;
+margin-bottom:4px;
+}
+
+.tiktok-desc{
+font-size:12px;
+color:#94a3b8;
+line-height:1.5;
+display:-webkit-box;
+-webkit-line-clamp:3;
+-webkit-box-orient:vertical;
+overflow:hidden;
+}
+
+.download-options-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));
+gap:10px;
+}
+
+.dl-btn{
+padding:12px 10px;
+border-radius:12px;
+border:none;
+font-weight:bold;
+font-size:12px;
+cursor:pointer;
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:4px;
+color:white;
+transition:.2s;
+text-align:center;
+}
+
+.dl-btn span{
+font-size:10px;
+opacity:0.8;
+font-weight:normal;
+}
+
+.dl-hd{ background:linear-gradient(135deg, #3b82f6, #2563eb); }
+.dl-uhd{ background:linear-gradient(135deg, #8b5cf6, #7c3aed); }
+.dl-uhd-plus{ background:linear-gradient(135deg, #f59e0b, #d97706); box-shadow:0 0 15px rgba(245,158,11,0.3); }
+.dl-wm{ background:linear-gradient(135deg, #475569, #334155); }
+
+/* MODAL & IN-MENU WARNINGS */
+.modal-overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.85);
+backdrop-filter:blur(10px);
+z-index:9999;
+display:none;
+place-items:center;
+padding:20px;
+}
+
+.modal-content{
+background:linear-gradient(150deg,#19142e,#0c0a18);
+border:1px solid rgba(167,139,250,0.35);
+border-radius:22px;
+padding:24px;
+width:min(440px,100%);
+box-shadow:0 25px 60px rgba(0,0,0,0.85);
+position:relative;
+max-height:90vh;
+overflow-y:auto;
+}
+
+.modal-close{
+position:absolute;
+top:16px;
+right:18px;
+font-size:20px;
+color:#858da1;
+cursor:pointer;
+background:none;
+border:none;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="email"],
+.modal-content input[type="password"]{
+width:100%;
+padding:12px 14px;
+margin-top:6px;
+margin-bottom:12px;
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.15);
+border-radius:12px;
+color:white;
+outline:none;
+font-size:14px;
+}
+
+.in-menu-msg{
+display:none;
+padding:10px 14px;
+border-radius:10px;
+font-size:12px;
+margin-bottom:12px;
+text-align:center;
+font-weight:bold;
+}
+
+.in-menu-msg.error{
+background:rgba(239,68,68,0.15);
+border:1px solid rgba(239,68,68,0.4);
+color:#f87171;
+}
+
+.in-menu-msg.success{
+background:rgba(34,197,94,0.15);
+border:1px solid rgba(34,197,94,0.4);
+color:#4ade80;
+}
+
+.qr-box{
+text-align:center;
+margin:12px 0;
+background:white;
+padding:10px;
+border-radius:12px;
+display:inline-block;
+}
+
+.qr-box img{
+width:180px;
+height:180px;
+object-fit:contain;
+}
+
+.admin-trigger-box{
+margin-top:20px;
+text-align:center;
+padding:15px;
+background:rgba(255,255,255,0.02);
+border:1px dashed rgba(255,255,255,0.1);
+border-radius:14px;
+}
+
+/* Video Ad Player & Controls */
+.video-wrapper{
+position:relative;
+width:100%;
+border-radius:12px;
+overflow:hidden;
+background:#000;
+}
+
+.ad-video-player{
+width:100%;
+max-height:280px;
+display:block;
+}
+
+.ad-audio-btn{
+position:absolute;
+bottom:12px;
+right:12px;
+background:rgba(0,0,0,0.65);
+border:1px solid rgba(255,255,255,0.3);
+color:white;
+padding:6px 12px;
+border-radius:8px;
+font-size:12px;
+cursor:pointer;
+z-index:10;
+}
+
+.ad-skip-close{
+position:absolute;
+top:10px;
+right:10px;
+background:rgba(0,0,0,0.65);
+border:1px solid rgba(255,255,255,0.3);
+color:white;
+width:32px;
+height:32px;
+border-radius:50%;
+display:grid;
+place-items:center;
+cursor:pointer;
+z-index:10;
+font-size:14px;
+}
+
+.skip-confirm-overlay{
+position:absolute;
+inset:0;
+background:rgba(0,0,0,0.85);
+display:none;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+padding:20px;
+text-align:center;
+z-index:20;
+}
+
+@media(max-width:800px){
+.nav-menu{ display:none; }
+.stats{ grid-template-columns:1fr; }
+.hero h1{ letter-spacing:-2px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<header class="navbar">
+<a href="#" class="brand">
+<img src="./assets/pyni.jpg">
+<strong>PYNI<span>.</span></strong>
+</a>
+
+<nav class="nav-menu">
+<a href="#preset">FREE PRESET</a>
+<a href="#buy-preset">BUY PRESET</a>
+<a href="#tiktok">DOWNLOADER</a>
+</nav>
+</header>
+
+<section class="hero">
+<div class="hero-content">
+<div class="badge">
+<span class="status-dot"></span>
+PYNI WEBSITE • ONLINE
+</div>
+
+<h1>WELCOME TO <span>PYNI</span></h1>
+
+<p class="hero-description">
+Jelajahi koleksi <b>FREE PRESET</b>, beli preset eksklusif di <b>BUY PRESET</b>, dan gunakan fitur <b>TIKTOK DOWNLOADER</b>.
+</p>
+
+<div class="hero-buttons">
+<a href="#preset" class="btn btn-main">✨ Free Preset</a>
+<a href="#buy-preset" class="btn btn-outline">💎 Buy Preset</a>
+</div>
+</div>
+</section>
+
+<section class="stats">
+<div class="stat">
+<div class="stat-number" id="presetStat">0</div>
+<div class="stat-label">FREE PRESET TERSEDIA</div>
+</div>
+
+<div class="stat">
+<div class="stat-number" id="buyPresetStat">0</div>
+<div class="stat-label">BUY PRESET TERSEDIA</div>
+</div>
+
+<div class="stat">
+<div class="stat-number">1080P</div>
+<div class="stat-label">VIDEO QUALITY</div>
+</div>
+</section>
+
+<main class="container">
+
+<!-- 1. FREE PRESET SECTION -->
+<section class="section" id="preset">
+<div class="section-heading">
+<div class="mini">COLLECTION</div>
+<h2>FREE PRESET JJ</h2>
+<p>Koleksi preset gratis yang dapat langsung kamu unduh.</p>
+</div>
+
+<div class="preset-box">
+<div class="preset-top">
+<strong>Free Presets</strong>
+<span class="preset-count" id="presetCount">0 preset</span>
+</div>
+
+<input id="search" class="search" placeholder="🔍 Cari free preset...">
+
+<div id="presetGrid" class="preset-grid">
+<div class="empty">
+<div class="empty-icon">🎨</div>
+<h3>Masih kosong</h3>
+<p>Belum ada preset gratis.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 2. BUY PRESET SECTION (PENGGANTI PYNI AI) -->
+<section class="section" id="buy-preset">
+<div class="section-heading">
+<div class="mini">PREMIUM COLLECTION</div>
+<h2>BUY PRESET</h2>
+<p>Preset eksklusif premium dengan kualitas terbaik.</p>
+</div>
+
+<div class="preset-box" style="border: 1px solid rgba(245, 158, 11, 0.35);">
+<div class="preset-top">
+<strong style="color: #f59e0b;">Premium Buy Presets</strong>
+<span class="preset-count" id="buyPresetCount">0 preset</span>
+</div>
+
+<input id="searchBuy" class="search" placeholder="🔍 Cari buy preset...">
+
+<div id="buyPresetGrid" class="preset-grid">
+<div class="empty">
+<div class="empty-icon">💎</div>
+<h3>Belum ada Buy Preset</h3>
+<p>Preset premium akan segera diunggah.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 3. TIKTOK DOWNLOADER SECTION -->
+<section class="section" id="tiktok">
+<div class="section-heading">
+<div class="mini">TOOLS</div>
+<h2>TIKTOK DOWNLOADER</h2>
+<p>Unduh video TikTok tanpa watermark dengan kualitas HD, Ultra HD, dan Ultra HD+.</p>
+</div>
+
+<div class="downloader-box">
+<div class="download-form">
+<input id="tiktokUrlInput" placeholder="Masukkan link video TikTok (https://vt.tiktok.com/...)">
+<button id="tiktokSubmitBtn" onclick="fetchTikTokVideo()">DOWNLOAD</button>
+</div>
+
+<div id="ttErrorMsg" class="in-menu-msg error" style="margin-top:10px;"></div>
+
+<div id="tiktokResultCard" class="tiktok-result-card">
+  <div class="tiktok-preview-box">
+    <img id="ttThumb" src="" alt="Thumbnail" class="tiktok-thumb">
+    <div class="tiktok-info">
+      <div id="ttAuthor" class="tiktok-author">@Username</div>
+      <div id="ttDesc" class="tiktok-desc">Deskripsi video TikTok...</div>
+    </div>
+  </div>
+
+  <div class="download-options-grid">
+    <button class="dl-btn dl-hd" onclick="triggerDownload('hd')">
+      ⬇ Download HD
+      <span>720p (Standar)</span>
+    </button>
+    <button class="dl-btn dl-uhd" onclick="triggerDownload('uhd')">
+      ⬇ Download Ultra HD
+      <span>1080p (Jernih)</span>
+    </button>
+    <button class="dl-btn dl-uhd-plus" onclick="triggerDownload('uhd_plus')">
+      ✨ Download Ultra HD+
+      <span>1440p (Super HD + Iklan 15s)</span>
+    </button>
+    <button class="dl-btn dl-wm" onclick="triggerDownload('wm')">
+      💧 With Watermark
+      <span>540p (Original TikTok)</span>
+    </button>
+  </div>
+</div>
+</div>
+
+<!-- ADMIN PANEL TRIGGER UNTUK KONFIRMASI PEMBELIAN -->
+<div class="admin-trigger-box">
+  <span style="font-size: 12px; color: #64748b;">Khusus Pengelola Website:</span>
+  <button class="btn btn-outline" style="margin-left:8px; font-size:11px; padding:6px 12px;" onclick="openModal('adminKeyModal')">🔒 Admin Panel</button>
+</div>
+</section>
+
+<!-- MODAL PEMBELIAN BUY PRESET -->
+<div id="buyModal" class="modal-overlay">
+  <div class="modal-content" style="text-align:center;">
+    <button class="modal-close" type="button" onclick="closeModal('buyModal')">✕</button>
+    <h3 style="font-size: 20px; margin-bottom: 4px; color:#f59e0b;">💎 Beli Preset Premium</h3>
+    <div id="modalPresetTitle" style="font-size: 14px; font-weight: bold; color: #fff; margin-bottom: 2px;">Nama Preset</div>
+    <div id="modalPresetPrice" style="font-size: 13px; color: #38bdf8; margin-bottom: 12px;">Harga: Rp 0</div>
+
+    <div id="buyMsgBox" class="in-menu-msg"></div>
+
+    <div class="qr-box">
+      <img src="https://cdn.phototourl.com/member/2026-08-25-3b5ee91b-d8fc-4f29-a00c-4286cd353e3c.jpg" alt="QRIS Pembayaran">
+    </div>
+    <div style="font-size:11px; color:#cbd5e1; margin-bottom:12px;">Scan QRIS di atas untuk menyelesaikan pembayaran</div>
+
+    <div style="text-align:left;">
+      <label style="font-size: 12px; color: #c4b5fd;">Nama Pembeli:</label>
+      <input type="text" id="buyerNameInput" placeholder="Masukkan nama Anda">
+
+      <label style="font-size: 12px; color: #c4b5fd;">Email (Privat untuk Anda):</label>
+      <input type="email" id="buyerEmailInput" placeholder="Masukkan email aktif">
+    </div>
+
+    <button class="btn btn-main" style="width: 100%; background:linear-gradient(135deg,#22c55e,#16a34a); margin-top:5px;" onclick="submitOrderToWhatsApp()">
+      💬 Chat Pyni (Konfirmasi WhatsApp)
+    </button>
+  </div>
+</div>
+
+<!-- MODAL LOGIN ADMIN PANEL (VIA KEY) -->
+<div id="adminKeyModal" class="modal-overlay">
+  <div class="modal-content">
+    <button class="modal-close" type="button" onclick="closeModal('adminKeyModal')">✕</button>
+    <h3 style="font-size: 18px; margin-bottom: 6px; color:#ec4899;">🔐 Akses Admin Panel</h3>
+    <p style="font-size: 13px; color: #858da1; margin-bottom: 12px;">Masukkan Secret Key untuk membuka panel konfirmasi.</p>
+
+    <div id="adminKeyMsgBox" class="in-menu-msg"></div>
+
+    <label style="font-size: 12px; color: #c4b5fd;">Secret Key:</label>
+    <input type="text" id="adminSecretKeyInput" placeholder="Masukkan Secret Key">
+
+    <button class="btn btn-main" style="width: 100%;" onclick="validateAdminKey()">MASUK PANEL</button>
+  </div>
+</div>
+
+<!-- MODAL DASHBOARD KONFIRMASI ADMIN -->
+<div id="adminConfirmDashboardModal" class="modal-overlay">
+  <div class="modal-content">
+    <button class="modal-close" type="button" onclick="closeModal('adminConfirmDashboardModal')">✕</button>
+    <h3 style="font-size: 18px; margin-bottom: 4px; color:#a78bfa;">✅ Konfirmasi Pembelian Buy Preset</h3>
+    <p style="font-size: 12px; color: #858da1; margin-bottom: 14px;">Masukkan ID Pembeli dari chat WhatsApp.</p>
+
+    <div id="adminConfirmMsgBox" class="in-menu-msg"></div>
+
+    <label style="font-size: 12px; color: #c4b5fd;">ID Pembeli:</label>
+    <input type="text" id="adminSearchOrderIdInput" placeholder="Contoh: BUY-7428255011">
+
+    <button class="btn btn-outline" style="width: 100%; margin-bottom: 12px;" onclick="checkOrderData()">CARI DATA PESANAN</button>
+
+    <div id="orderDetailsBox" style="display:none; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); padding:12px; border-radius:12px; margin-bottom:12px; text-align:left; font-size:13px;">
+      <div>📦 Produk: <strong id="resProdName">-</strong></div>
+      <div>💰 Harga: <strong id="resProdPrice">-</strong></div>
+      <div>👤 Nama: <span id="resBuyerName">-</span></div>
+      <div>🔗 Link Preset: <a id="resProdLink" href="#" target="_blank" style="color:#38bdf8;">Buka Link</a></div>
+      <button class="btn btn-main" style="width:100%; margin-top:10px; background:linear-gradient(135deg,#22c55e,#16a34a);" onclick="confirmBuyerPayment()">KONFIRMASI PEMBAYARAN</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL IKLAN 15 DETIK DENGAN MUTE/UNMUTE & SKIP CONFIRMATION -->
+<div id="adModal" class="modal-overlay">
+  <div class="modal-content" style="text-align:center; padding:18px;">
+    <h3 style="font-size: 15px; margin-bottom: 10px; color:#fff;" id="adTimerText">⏳ Menonton Iklan: 15 detik</h3>
+
+    <div class="video-wrapper">
+      <video id="adVideoPlayer" class="ad-video-player" playsinline webkit-playsinline autoplay muted></video>
+      <button class="ad-skip-close" onclick="promptSkipAd()">✕</button>
+      <button id="adAudioToggleBtn" class="ad-audio-btn" onclick="toggleAdAudio()">🔇 Suara Mati</button>
+
+      <!-- Skip Dialog Overlay -->
+      <div id="skipConfirmOverlay" class="skip-confirm-overlay">
+        <h4 style="font-size: 16px; margin-bottom: 8px; color: #fff;">Yakin ingin skip?</h4>
+        <p style="font-size: 12px; color: #cbd5e1; margin-bottom: 15px;">Jika skip sekarang, unduhan Ultra HD+ (1440p) akan dibatalkan.</p>
+        <div style="display: flex; gap: 10px; width: 100%;">
+          <button class="btn btn-outline" style="flex: 1; padding: 10px;" onclick="cancelAdAndDownload()">Yakin</button>
+          <button class="btn btn-main" style="flex: 1; padding: 10px;" onclick="resumeAdVideo()">Tidak</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="font-size:11px; color:#858da1; margin-top:10px;">Video 1440p otomatis tersimpan setelah iklan selesai (15s).</div>
+  </div>
+</div>
+
+</main>
+
+<footer style="text-align:center; padding:40px 20px; color:#858da1;">
+<strong style="color:white;">PYNI</strong><br>
+Free Preset • Buy Preset • Downloader
+</footer>
+
+<script>
+/* ================== CLOUDFLARE KV & PRESET LOADERS ================== */
+const WORKER_URL = "https://pyni-preset-api.mandasukaaku.workers.dev/";
+const ADMIN_SECRET_KEY = "KEY_PYNI2535";
+
+let allFreePresets = [];
+let allBuyPresets = [];
+let activeBuyItem = null;
+
+async function loadPresets(){
+  try{
+    let response = await fetch(WORKER_URL + "?time=" + Date.now(), {cache:"no-store"});
+    let data = await response.json();
+    let rawList = Array.isArray(data.presets) ? data.presets : [];
+
+    // Filter kategori Free vs Buy Preset
+    allFreePresets = rawList.filter(item => item.type !== "buy" && item.active !== false);
+    allBuyPresets = rawList.filter(item => item.type === "buy" && item.active !== false);
+
+    renderFreePresets(allFreePresets);
+    renderBuyPresets(allBuyPresets);
+
+    document.getElementById("presetStat").innerText = allFreePresets.length;
+    document.getElementById("presetCount").innerText = allFreePresets.length + " preset";
+    document.getElementById("buyPresetStat").innerText = allBuyPresets.length;
+    document.getElementById("buyPresetCount").innerText = allBuyPresets.length + " preset";
+  }catch(error){
+    console.log("Preset gagal dimuat", error);
+  }
+}
+
+function renderFreePresets(list){
+  let grid = document.getElementById("presetGrid");
+  grid.innerHTML = "";
+  if(list.length === 0){
+    grid.innerHTML = `<div class="empty"><div class="empty-icon">🎨</div><h3>Masih kosong</h3><p>Belum ada free preset.</p></div>`;
+    return;
+  }
+  list.forEach(item=>{
+    grid.innerHTML += `
+      <div class="feature-card">
+        <img src="${item.image || './assets/preset/test.jpg'}" style="width:100%; height:160px; object-fit:cover; border-radius:15px; margin-bottom:15px;">
+        <h3>${item.name || "Preset Tanpa Nama"}</h3>
+        <p>${item.description || "Tidak ada deskripsi"}</p>
+        <a href="${item.download || "#"}" target="_blank" class="btn btn-main" style="display:inline-block; margin-top:15px;">⬇ Download</a>
+      </div>
+    `;
+  });
+}
+
+function renderBuyPresets(list){
+  let grid = document.getElementById("buyPresetGrid");
+  grid.innerHTML = "";
+  if(list.length === 0){
+    grid.innerHTML = `<div class="empty"><div class="empty-icon">💎</div><h3>Belum ada Buy Preset</h3><p>Preset premium akan segera diunggah.</p></div>`;
+    return;
+  }
+  list.forEach(item=>{
+    grid.innerHTML += `
+      <div class="feature-card">
+        <div class="price-tag">Rp ${(item.price || "10.000")}</div>
+        <img src="${item.image || './assets/preset/test.jpg'}" style="width:100%; height:160px; object-fit:cover; border-radius:15px; margin-bottom:15px;">
+        <h3>${item.name || "Buy Preset"}</h3>
+        <p>${item.description || "Preset eksklusif premium"}</p>
+        <button class="btn btn-main" style="width:100%; margin-top:15px; background:linear-gradient(135deg,#f59e0b,#d97706);" onclick="openBuyModal('${item.id}')">💎 Buy Preset</button>
+      </div>
+    `;
+  });
+}
+
+document.getElementById("search").addEventListener("input", function(){
+  let keyword = this.value.toLowerCase();
+  let result = allFreePresets.filter(item=> (item.name || "").toLowerCase().includes(keyword) || (item.category || "").toLowerCase().includes(keyword));
+  renderFreePresets(result);
+});
+
+document.getElementById("searchBuy").addEventListener("input", function(){
+  let keyword = this.value.toLowerCase();
+  let result = allBuyPresets.filter(item=> (item.name || "").toLowerCase().includes(keyword) || (item.category || "").toLowerCase().includes(keyword));
+  renderBuyPresets(result);
+});
+
+loadPresets();
+
+/* ================== BUY PRESET ORDER & WHATSAPP LOGIC ================== */
+function openModal(id){
+  clearInMenuMessages();
+  document.getElementById(id).style.display = "grid";
+}
+
+function closeModal(id){
+  clearInMenuMessages();
+  document.getElementById(id).style.display = "none";
+}
+
+function showInMenuMsg(elementId, text, isError = true){
+  let box = document.getElementById(elementId);
+  if(box){
+    box.className = `in-menu-msg ${isError ? 'error' : 'success'}`;
+    box.innerText = text;
+    box.style.display = "block";
+  }
+}
+
+function clearInMenuMessages(){
+  document.querySelectorAll('.in-menu-msg').forEach(el => { el.style.display = 'none'; el.innerText = ''; });
+}
+
+function openBuyModal(presetId){
+  activeBuyItem = allBuyPresets.find(p => p.id === presetId);
+  if(!activeBuyItem) return;
+
+  document.getElementById("modalPresetTitle").innerText = activeBuyItem.name;
+  document.getElementById("modalPresetPrice").innerText = "Harga: Rp " + (activeBuyItem.price || "10.000");
+  openModal("buyModal");
+}
+
+function submitOrderToWhatsApp(){
+  let name = document.getElementById("buyerNameInput").value.trim();
+  let email = document.getElementById("buyerEmailInput").value.trim();
+
+  if(!name || !email){
+    showInMenuMsg("buyMsgBox", "Silakan masukkan Nama dan Email Anda!");
+    return;
+  }
+
+  // Generate Unique Order ID
+  let orderId = "BUY-" + Math.floor(10000000 + Math.random() * 90000000);
+
+  // Simpan data order ke local database agar bisa dikonfirmasi admin
+  let ordersDb = JSON.parse(localStorage.getItem("pyni_orders_db") || "{}");
+  ordersDb[orderId] = {
+    orderId: orderId,
+    productName: activeBuyItem.name,
+    price: activeBuyItem.price || "10.000",
+    downloadLink: activeBuyItem.download || "#",
+    buyerName: name,
+    buyerEmail: email,
+    confirmed: false,
+    date: Date.now()
+  };
+  localStorage.setItem("pyni_orders_db", JSON.stringify(ordersDb));
+
+  let text = `Halo Admin Pyni, saya ingin beli Preset Premium:%0A%0A` +
+             `📦 Nama Preset: ${encodeURIComponent(activeBuyItem.name)}%0A` +
+             `💰 Harga: Rp ${encodeURIComponent(activeBuyItem.price || "10.000")}%0A` +
+             `👤 Nama Pembeli: ${encodeURIComponent(name)}%0A` +
+             `🔑 ID Pembelian: ${encodeURIComponent(orderId)}%0A%0A` +
+             `Saya sudah transfer via QRIS. Mohon segera dikonfirmasi. Terima kasih!`;
+
+  closeModal("buyModal");
+  window.open(`https://wa.me/6283848223299?text=${text}`, '_blank');
+}
+
+/* ================== ADMIN KEY & CONFIRMATION PANEL ================== */
+function validateAdminKey(){
+  let keyInput = document.getElementById("adminSecretKeyInput").value.trim();
+  if(keyInput === ""){
+    showInMenuMsg("adminKeyMsgBox", "Harap masukkan key!");
+    return;
+  }
+  if(keyInput !== ADMIN_SECRET_KEY){
+    showInMenuMsg("adminKeyMsgBox", "Key salah! Akses ditolak.");
+    return;
+  }
+  closeModal("adminKeyModal");
+  openModal("adminConfirmDashboardModal");
+}
+
+let currentFoundOrder = null;
+
+function checkOrderData(){
+  let id = document.getElementById("adminSearchOrderIdInput").value.trim();
+  if(!id){
+    showInMenuMsg("adminConfirmMsgBox", "Harap masukkan ID Pembeli!");
+    return;
+  }
+
+  let ordersDb = JSON.parse(localStorage.getItem("pyni_orders_db") || "{}");
+  currentFoundOrder = ordersDb[id];
+
+  if(!currentFoundOrder){
+    showInMenuMsg("adminConfirmMsgBox", `ID ${id} tidak ditemukan.`);
+    document.getElementById("orderDetailsBox").style.display = "none";
+    return;
+  }
+
+  clearInMenuMessages();
+  document.getElementById("resProdName").innerText = currentFoundOrder.productName;
+  document.getElementById("resProdPrice").innerText = "Rp " + currentFoundOrder.price;
+  document.getElementById("resBuyerName").innerText = currentFoundOrder.buyerName;
+  document.getElementById("resProdLink").href = currentFoundOrder.downloadLink;
+  document.getElementById("orderDetailsBox").style.display = "block";
+}
+
+function confirmBuyerPayment(){
+  if(!currentFoundOrder) return;
+  currentFoundOrder.confirmed = true;
+  let ordersDb = JSON.parse(localStorage.getItem("pyni_orders_db") || "{}");
+  ordersDb[currentFoundOrder.orderId] = currentFoundOrder;
+  localStorage.setItem("pyni_orders_db", JSON.stringify(ordersDb));
+
+  showInMenuMsg("adminConfirmMsgBox", `Pesanan ${currentFoundOrder.orderId} BERHASIL DIKONFIRMASI!`, false);
+}
+
+/* ================== TIKTOK DOWNLOADER & 15s AD ENGINE ================== */
+const AD_VIDEOS = [
+  "https://www.image2url.com/r2/default/videos/1787622769899-2995e62e-00b5-4a51-a01d-24643418302a.mp4",
+  "https://www.image2url.com/r2/default/videos/1787622931918-6c38e2f7-71b9-44e4-8954-528343c6faa0.mp4",
+  "https://www.image2url.com/r2/default/videos/1787622993025-190fb550-9b27-4da1-b649-26ccd390b7a1.mp4",
+  "https://www.image2url.com/r2/default/videos/1787623108091-48829162-f4af-4aa2-bf71-be68b15e97ea.mp4"
+];
+
+let currentTikTokData = null;
+let adInterval = null;
+let targetPendingDownload = null;
+
+async function fetchTikTokVideo(){
+  let input = document.getElementById("tiktokUrlInput");
+  let url = input.value.trim();
+  let errBox = document.getElementById("ttErrorMsg");
+  errBox.style.display = "none";
+
+  if(!url || (!url.includes("tiktok.com") && !url.includes("douyin.com"))){
+    errBox.innerText = "Video tidak ditemukan! Harap masukkan link video TikTok yang valid.";
+    errBox.style.display = "block";
+    return;
+  }
+
+  let btn = document.getElementById("tiktokSubmitBtn");
+  btn.innerText = "MEMUAT...";
+  btn.disabled = true;
+
+  try {
+    let res = await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(url)}&hd=1`);
+    let json = await res.json();
+
+    if(json && json.code === 0 && json.data){
+      currentTikTokData = json.data;
+      document.getElementById("ttThumb").src = currentTikTokData.cover || currentTikTokData.origin_cover;
+      document.getElementById("ttAuthor").innerText = "@" + (currentTikTokData.author.unique_id || currentTikTokData.author.nickname || "TikTok User");
+      document.getElementById("ttDesc").innerText = currentTikTokData.title || "Video TikTok";
+      document.getElementById("tiktokResultCard").style.display = "block";
+    } else {
+      errBox.innerText = "Video tidak ditemukan. Pastikan video bersifat publik.";
+      errBox.style.display = "block";
+    }
+  } catch(err){
+    errBox.innerText = "Video tidak ditemukan atau koneksi server sedang sibuk.";
+    errBox.style.display = "block";
+  } finally {
+    btn.innerText = "DOWNLOAD";
+    btn.disabled = false;
+  }
+}
+
+function triggerDownload(quality){
+  if(!currentTikTokData) return;
+  let downloadUrl = "";
+  let filename = `Pyni_TikTok_${Date.now()}`;
+
+  if(quality === 'hd'){
+    downloadUrl = currentTikTokData.play;
+    filename += "_720p_HD.mp4";
+    executeDirectDownload(downloadUrl, filename);
+  } else if(quality === 'uhd'){
+    downloadUrl = currentTikTokData.hdplay || currentTikTokData.play;
+    filename += "_1080p_UltraHD.mp4";
+    executeDirectDownload(downloadUrl, filename);
+  } else if(quality === 'wm'){
+    downloadUrl = currentTikTokData.wmplay || currentTikTokData.play;
+    filename += "_540p_Watermark.mp4";
+    executeDirectDownload(downloadUrl, filename);
+  } else if(quality === 'uhd_plus'){
+    downloadUrl = currentTikTokData.hdplay || currentTikTokData.play;
+    filename += "_1440p_UltraHD_Plus.mp4";
+    targetPendingDownload = { url: downloadUrl, filename: filename };
+    play15sAdVideo();
+  }
+}
+
+function executeDirectDownload(url, filename){
+  let a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.target = "_blank";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+function play15sAdVideo(){
+  openModal("adModal");
+  document.getElementById("skipConfirmOverlay").style.display = "none";
+  let videoPlayer = document.getElementById("adVideoPlayer");
+  let timerBadge = document.getElementById("adTimerText");
+
+  let randomAd = AD_VIDEOS[Math.floor(Math.random() * AD_VIDEOS.length)];
+  videoPlayer.src = randomAd;
+  videoPlayer.muted = false; // Suara aktif default
+  updateAudioButtonUi();
+  videoPlayer.load();
+  videoPlayer.play().catch(() => {
+    videoPlayer.muted = true;
+    updateAudioButtonUi();
+    videoPlayer.play();
+  });
+
+  let timeLeft = 15;
+  timerBadge.innerText = `⏳ Menonton Iklan: ${timeLeft} detik`;
+
+  clearInterval(adInterval);
+  adInterval = setInterval(() => {
+    timeLeft--;
+    if(timeLeft > 0){
+      timerBadge.innerText = `⏳ Menonton Iklan: ${timeLeft} detik`;
+    } else {
+      clearInterval(adInterval);
+      timerBadge.innerText = "✅ Selesai! Mengunduh Video Ultra HD+ (1440p)...";
+      videoPlayer.pause();
+      setTimeout(() => {
+        closeModal("adModal");
+        if(targetPendingDownload){
+          executeDirectDownload(targetPendingDownload.url, targetPendingDownload.filename);
+        }
+      }, 800);
+    }
+  }, 1000);
+}
+
+function toggleAdAudio(){
+  let videoPlayer = document.getElementById("adVideoPlayer");
+  videoPlayer.muted = !videoPlayer.muted;
+  updateAudioButtonUi();
+}
+
+function updateAudioButtonUi(){
+  let videoPlayer = document.getElementById("adVideoPlayer");
+  let btn = document.getElementById("adAudioToggleBtn");
+  btn.innerText = videoPlayer.muted ? "🔇 Suara Mati" : "🔊 Suara Hidup";
+}
+
+function promptSkipAd(){
+  let videoPlayer = document.getElementById("adVideoPlayer");
+  videoPlayer.pause();
+  document.getElementById("skipConfirmOverlay").style.display = "flex";
+}
+
+function resumeAdVideo(){
+  document.getElementById("skipConfirmOverlay").style.display = "none";
+  let videoPlayer = document.getElementById("adVideoPlayer");
+  videoPlayer.play();
+}
+
+function cancelAdAndDownload(){
+  clearInterval(adInterval);
+  let videoPlayer = document.getElementById("adVideoPlayer");
+  videoPlayer.pause();
+  closeModal("adModal");
+  targetPendingDownload = null;
+}
+</script>
+
+</body>
+</html>
