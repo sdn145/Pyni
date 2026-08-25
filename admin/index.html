@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>PYNI Admin Studio</title>
+
+<style>
+*{
+box-sizing:border-box;
+font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+margin:0;
+min-height:100vh;
+background:#080611;
+color:white;
+}
+
+/* AUTH LOCK SCREEN */
+.auth-overlay{
+position:fixed;
+inset:0;
+background:#080611;
+z-index:99999;
+display:grid;
+place-items:center;
+padding:20px;
+}
+
+.auth-card{
+background:linear-gradient(150deg,#19142e,#0c0a18);
+border:1px solid rgba(167,139,250,0.35);
+border-radius:22px;
+padding:28px;
+width:min(400px,100%);
+box-shadow:0 25px 60px rgba(0,0,0,0.85);
+text-align:center;
+}
+
+.auth-card h2{
+font-size:22px;
+margin-bottom:6px;
+color:#fff;
+}
+
+.auth-card p{
+font-size:13px;
+color:#858da1;
+margin-bottom:16px;
+}
+
+.auth-card input{
+width:100%;
+padding:14px;
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.15);
+border-radius:12px;
+color:white;
+outline:none;
+font-size:14px;
+text-align:center;
+letter-spacing:1px;
+margin-bottom:12px;
+}
+
+.auth-card input:focus{
+border-color:#a855f7;
+}
+
+.auth-card button{
+width:100%;
+padding:14px;
+border:0;
+border-radius:12px;
+background:linear-gradient(135deg,#7c3aed,#ec4899);
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+.in-menu-msg{
+display:none;
+padding:10px 14px;
+border-radius:10px;
+font-size:12px;
+margin-bottom:12px;
+text-align:center;
+font-weight:bold;
+}
+
+.in-menu-msg.error{
+background:rgba(239,68,68,0.15);
+border:1px solid rgba(239,68,68,0.4);
+color:#f87171;
+}
+
+/* SIDEBAR */
+.sidebar{
+position:fixed;
+left:0;
+top:0;
+bottom:0;
+width:240px;
+padding:25px;
+background:#11101a;
+border-right:1px solid rgba(255,255,255,.08);
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+}
+
+.logo{
+font-size:32px;
+font-weight:900;
+letter-spacing:2px;
+}
+
+.logo span{
+color:#a855f7;
+}
+
+.sidebar p{
+color:#888;
+margin-top:5px;
+}
+
+.menu{
+margin-top:25px;
+flex:1;
+}
+
+.menu button{
+width:100%;
+padding:14px;
+margin-bottom:12px;
+border:0;
+border-radius:14px;
+background:#211d30;
+color:white;
+cursor:pointer;
+text-align:left;
+font-weight:bold;
+transition:.25s;
+}
+
+.menu button:hover,
+.menu button.active{
+background:linear-gradient(135deg,#7c3aed,#ec4899);
+}
+
+.logout-studio-btn{
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.15);
+color:#cbd5e1;
+padding:12px;
+border-radius:12px;
+cursor:pointer;
+font-weight:bold;
+width:100%;
+}
+
+/* MAIN CONTENT */
+main{
+margin-left:240px;
+padding:30px;
+}
+
+.page{
+display:none;
+}
+
+.page.active{
+display:block;
+}
+
+.card{
+background:#171421;
+border:1px solid rgba(255,255,255,.08);
+border-radius:22px;
+padding:25px;
+margin-bottom:25px;
+}
+
+h1{
+font-size:30px;
+margin-bottom:20px;
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px;
+}
+
+.stat{
+background:#211d30;
+padding:22px;
+border-radius:18px;
+}
+
+.stat h2{
+font-size:36px;
+color:#c4b5fd;
+}
+
+.stat p{
+color:#999;
+margin-top:8px;
+}
+
+input,
+textarea,
+select{
+width:100%;
+padding:14px;
+margin-top:12px;
+background:#090812;
+color:white;
+border:1px solid #333;
+border-radius:12px;
+outline:none;
+}
+
+textarea{
+height:120px;
+resize:none;
+}
+
+select{
+cursor:pointer;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+border-color:#a855f7;
+}
+
+button.publish{
+width:100%;
+margin-top:20px;
+padding:15px;
+border:0;
+border-radius:13px;
+background:linear-gradient(135deg,#7c3aed,#ec4899);
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+.preview{
+width:250px;
+height:160px;
+object-fit:cover;
+border-radius:15px;
+margin-top:15px;
+display:none;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,
+td{
+padding:14px;
+border-bottom:1px solid rgba(255,255,255,.1);
+text-align:left;
+}
+
+td img{
+width:70px;
+height:50px;
+object-fit:cover;
+border-radius:8px;
+}
+
+.status{
+margin-top:15px;
+padding:13px;
+border-radius:12px;
+background:#13271a;
+color:#86efac;
+display:none;
+}
+
+@media(max-width:800px){
+.sidebar{
+position:relative;
+width:100%;
+}
+main{
+margin-left:0;
+}
+.stats{
+grid-template-columns:1fr;
+}
+}
+</style>
+</head>
+
+<body>
+
+<!-- GERBANG LOGIN ADMIN VIA SECRET KEY -->
+<div id="authGate" class="auth-overlay">
+  <div class="auth-card">
+    <div style="font-size: 36px; margin-bottom: 8px;">🔐</div>
+    <h2>PYNI Admin Studio</h2>
+    <p>Masukkan Secret Key untuk mengakses studio pengelolaan preset.</p>
+
+    <div id="authErrorMsg" class="in-menu-msg error"></div>
+
+    <input type="password" id="adminKeyInput" placeholder="Masukkan Secret Key" onkeypress="handleAuthKey(event)">
+    <button type="button" onclick="validateAdminAccess()">BUKA ADMIN STUDIO</button>
+  </div>
+</div>
+
+<aside class="sidebar">
+<div>
+<div class="logo">
+PYNI<span>.</span>
+</div>
+<p>Admin Studio</p>
+
+<div class="menu">
+<button class="active" onclick="openPage('dashboard',this)">
+📊 Dashboard
+</button>
+
+<button onclick="openPage('upload',this)">
+➕ Upload Preset (Free)
+</button>
+
+<button onclick="openPage('uploadBuy',this)">
+💎 Upload Buy Preset
+</button>
+
+<button onclick="openPage('freeSetting',this)">
+⚙️ Free Preset Setting
+</button>
+
+<button onclick="openPage('buySetting',this)">
+💎 Buy Preset Setting
+</button>
+</div>
+</div>
+
+<div>
+  <button class="logout-studio-btn" onclick="logoutAdminStudio()">🔒 Kunci Studio (Keluar)</button>
+</div>
+</aside>
+
+<main>
+
+<section id="dashboard" class="page active">
+<div class="card">
+<h1>Dashboard</h1>
+<div class="stats">
+<div class="stat">
+<h2 id="total">0</h2>
+<p>Total Preset</p>
+</div>
+<div class="stat">
+<h2>ONLINE</h2>
+<p>Worker Status</p>
+</div>
+<div class="stat">
+<h2>KV</h2>
+<p>Cloudflare Storage</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 1. UPLOAD FREE PRESET -->
+<section id="upload" class="page">
+<div class="card">
+<h1>Upload Free Preset</h1>
+
+<input id="name" placeholder="Nama preset">
+<textarea id="desc" placeholder="Deskripsi preset"></textarea>
+<input id="link" placeholder="Link preset (wajib)">
+<input id="image" placeholder="Nama foto.jpg">
+
+<select id="category">
+<option value="JJ">JJ</option>
+<option value="Shake">Shake</option>
+<option value="Velocity">Velocity</option>
+<option value="Beat">Beat</option>
+<option value="Slowmo">Slowmo</option>
+</select>
+
+<p style="color:#888; font-size:13px; margin-top:10px;">
+Foto diambil dari: <b>Pyni/assets/preset/</b>
+</p>
+
+<img id="preview" class="preview">
+
+<button class="publish" onclick="publishPreset('free')">
+🚀 PUBLISH FREE PRESET
+</button>
+
+<div id="status" class="status"></div>
+</div>
+</section>
+
+<!-- 2. UPLOAD BUY PRESET -->
+<section id="uploadBuy" class="page">
+<div class="card">
+<h1 style="color:#f59e0b;">💎 Upload Buy Preset</h1>
+
+<input id="buyName" placeholder="Nama buy preset (Contoh: Preset JJ VIP)">
+<textarea id="buyDesc" placeholder="Deskripsi buy preset"></textarea>
+<input id="buyPrice" placeholder="Harga (Contoh: 15.000)">
+<input id="buyLink" placeholder="Link download preset berbayar (wajib)">
+<input id="buyImage" placeholder="Nama foto.jpg (Contoh: test.jpg)">
+
+<p style="color:#888; font-size:13px; margin-top:10px;">
+Foto diambil dari: <b>Pyni/assets/preset/</b>
+</p>
+
+<img id="buyPreview" class="preview">
+
+<button class="publish" style="background:linear-gradient(135deg,#f59e0b,#d97706);" onclick="publishPreset('buy')">
+🚀 PUBLISH BUY PRESET
+</button>
+
+<div id="buyStatus" class="status"></div>
+</div>
+</section>
+
+<!-- 3. FREE PRESET SETTING -->
+<section id="freeSetting" class="page">
+<div class="card">
+<h1>⚙️ Free Preset Setting</h1>
+
+<table>
+<thead>
+<tr>
+<th>Foto</th>
+<th>Nama</th>
+<th>Kategori</th>
+<th>Deskripsi</th>
+<th>Link</th>
+<th>Aksi</th>
+</tr>
+</thead>
+<tbody id="freeTable"></tbody>
+</table>
+</div>
+</section>
+
+<!-- 4. BUY PRESET SETTING -->
+<section id="buySetting" class="page">
+<div class="card" style="border: 1px solid rgba(245, 158, 11, 0.35);">
+<h1 style="color:#f59e0b;">💎 Buy Preset Setting</h1>
+
+<table>
+<thead>
+<tr>
+<th>Foto</th>
+<th>Nama</th>
+<th>Harga</th>
+<th>Deskripsi</th>
+<th>Link</th>
+<th>Aksi</th>
+</tr>
+</thead>
+<tbody id="buyTable"></tbody>
+</table>
+</div>
+</section>
+
+</main>
+
+<script>
+const WORKER_URL = "https://pyni-preset-api.mandasukaaku.workers.dev/";
+const MASTER_STUDIO_KEY = "KEY_PYNI353636";
+
+/* AUTH ACCESS CONTROLLER */
+function handleAuthKey(e){
+  if(e.key === "Enter") validateAdminAccess();
+}
+
+function validateAdminAccess(){
+  let keyInput = document.getElementById("adminKeyInput").value.trim();
+  let errBox = document.getElementById("authErrorMsg");
+  errBox.style.display = "none";
+
+  if(keyInput === ""){
+    errBox.innerText = "Harap masukkan Secret Key!";
+    errBox.style.display = "block";
+    return;
+  }
+
+  if(keyInput === MASTER_STUDIO_KEY){
+    sessionStorage.setItem("pyni_admin_unlocked", "true");
+    document.getElementById("authGate").style.display = "none";
+    loadPresets();
+  } else {
+    errBox.innerText = "Secret Key salah! Akses ditolak.";
+    errBox.style.display = "block";
+  }
+}
+
+function logoutAdminStudio(){
+  sessionStorage.removeItem("pyni_admin_unlocked");
+  location.reload();
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  if(sessionStorage.getItem("pyni_admin_unlocked") === "true"){
+    document.getElementById("authGate").style.display = "none";
+    loadPresets();
+  }
+});
+
+/* PRESET STUDIO SCRIPTS */
+const nameInput = document.getElementById("name");
+const descInput = document.getElementById("desc");
+const linkInput = document.getElementById("link");
+const imageInput = document.getElementById("image");
+const categoryInput = document.getElementById("category");
+const preview = document.getElementById("preview");
+const statusBox = document.getElementById("status");
+
+const buyNameInput = document.getElementById("buyName");
+const buyDescInput = document.getElementById("buyDesc");
+const buyPriceInput = document.getElementById("buyPrice");
+const buyLinkInput = document.getElementById("buyLink");
+const buyImageInput = document.getElementById("buyImage");
+const buyPreview = document.getElementById("buyPreview");
+const buyStatusBox = document.getElementById("buyStatus");
+
+const freeTable = document.getElementById("freeTable");
+const buyTable = document.getElementById("buyTable");
+const total = document.getElementById("total");
+
+let presets = [];
+
+function openPage(id, btn){
+  document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  document.querySelectorAll(".menu button").forEach(button => button.classList.remove("active"));
+  btn.classList.add("active");
+  if(id === "freeSetting" || id === "buySetting" || id === "dashboard"){
+    loadPresets();
+  }
+}
+
+imageInput.addEventListener("input", () => {
+  let img = imageInput.value.trim().replace("./assets/preset/", "");
+  if(!img){ preview.style.display = "none"; return; }
+  preview.src = "../assets/preset/" + img;
+  preview.style.display = "block";
+  preview.onerror = () => { preview.style.display = "none"; };
+});
+
+buyImageInput.addEventListener("input", () => {
+  let img = buyImageInput.value.trim().replace("./assets/preset/", "");
+  if(!img){ buyPreview.style.display = "none"; return; }
+  buyPreview.src = "../assets/preset/" + img;
+  buyPreview.style.display = "block";
+  buyPreview.onerror = () => { buyPreview.style.display = "none"; };
+});
+
+async function loadPresets(){
+  try{
+    let response = await fetch(WORKER_URL + "?time=" + Date.now(), {cache:"no-store"});
+    let data = await response.json();
+    presets = Array.isArray(data.presets) ? data.presets : [];
+    total.innerText = presets.length;
+    renderTables();
+  }catch(error){
+    console.log(error);
+  }
+}
+
+function renderTables(){
+  freeTable.innerHTML = "";
+  buyTable.innerHTML = "";
+
+  let freeList = presets.filter(item => item.type !== "buy");
+  let buyList = presets.filter(item => item.type === "buy");
+
+  if(freeList.length === 0){
+    freeTable.innerHTML = `<tr><td colspan="6" style="text-align:center;">Belum ada free preset</td></tr>`;
+  } else {
+    freeList.forEach(item => {
+      let image = (item.image || "").replace("./", "");
+      freeTable.innerHTML += `
+        <tr>
+          <td><img src="../${image}" onerror="this.src='../assets/preset/test.jpg'"></td>
+          <td>${item.name || "-"}</td>
+          <td><span style="padding:4px 8px; border-radius:6px; font-size:11px; font-weight:bold; background:#7c3aed;">${item.category || "JJ"}</span></td>
+          <td>${item.description || "-"}</td>
+          <td><a href="${item.download || "#"}" target="_blank" style="color:#38bdf8;">Buka</a></td>
+          <td>
+            <button onclick="deletePreset('${item.id}')" style="background:#ef4444; color:white; border:0; padding:8px 12px; border-radius:8px; cursor:pointer;">
+              Hapus
+            </button>
+          </td>
+        </tr>
+      `;
+    });
+  }
+
+  if(buyList.length === 0){
+    buyTable.innerHTML = `<tr><td colspan="6" style="text-align:center;">Belum ada buy preset</td></tr>`;
+  } else {
+    buyList.forEach(item => {
+      let image = (item.image || "").replace("./", "");
+      buyTable.innerHTML += `
+        <tr>
+          <td><img src="../${image}" onerror="this.src='../assets/preset/test.jpg'"></td>
+          <td>${item.name || "-"}</td>
+          <td style="color:#f59e0b; font-weight:bold;">Rp ${item.price || "0"}</td>
+          <td>${item.description || "-"}</td>
+          <td><a href="${item.download || "#"}" target="_blank" style="color:#38bdf8;">Buka</a></td>
+          <td>
+            <button onclick="deletePreset('${item.id}')" style="background:#ef4444; color:white; border:0; padding:8px 12px; border-radius:8px; cursor:pointer;">
+              Hapus
+            </button>
+          </td>
+        </tr>
+      `;
+    });
+  }
+}
+
+async function publishPreset(type){
+  let name, desc, link, image, category, price, statBox;
+
+  if(type === 'free'){
+    name = nameInput.value.trim();
+    desc = descInput.value.trim();
+    link = linkInput.value.trim();
+    image = imageInput.value.trim().replace("./assets/preset/", "");
+    category = categoryInput.value;
+    price = "0";
+    statBox = statusBox;
+  } else {
+    name = buyNameInput.value.trim();
+    desc = buyDescInput.value.trim();
+    price = buyPriceInput.value.trim() || "10.000";
+    link = buyLinkInput.value.trim();
+    image = buyImageInput.value.trim().replace("./assets/preset/", "");
+    category = "BUY";
+    statBox = buyStatusBox;
+  }
+
+  if(link === ""){
+    statBox.style.display = "block";
+    statBox.innerHTML = "❌ Link preset wajib diisi";
+    return;
+  }
+
+  let data = {
+    id: "preset-" + Date.now(),
+    type: type,
+    name: name || (type === 'buy' ? "Buy Preset Premium" : "Preset Tanpa Nama"),
+    description: desc || "",
+    price: price,
+    download: link,
+    image: image ? "./assets/preset/" + image : "",
+    category: category,
+    active: true
+  };
+
+  statBox.style.display = "block";
+  statBox.innerHTML = "⏳ Mengirim ke Cloudflare KV...";
+
+  try{
+    let response = await fetch(WORKER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+
+    let result = await response.json();
+    if(result.ok){
+      statBox.innerHTML = `✅ ${type === 'buy' ? 'Buy Preset' : 'Free Preset'} berhasil dipublish ke web utama!`;
+      if(type === 'free'){
+        nameInput.value = ""; descInput.value = ""; linkInput.value = ""; imageInput.value = ""; preview.style.display = "none";
+      } else {
+        buyNameInput.value = ""; buyDescInput.value = ""; buyPriceInput.value = ""; buyLinkInput.value = ""; buyImageInput.value = ""; buyPreview.style.display = "none";
+      }
+      await loadPresets();
+    } else {
+      statBox.innerHTML = "❌ " + (result.error || "Gagal publish");
+    }
+  }catch(error){
+    statBox.innerHTML = "❌ " + error.message;
+  }
+}
+
+async function deletePreset(id){
+  if(!confirm("Hapus preset ini?")) return;
+  try{
+    let response = await fetch(WORKER_URL, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: id })
+    });
+    let result = await response.json();
+    if(result.ok){
+      await loadPresets();
+    } else {
+      alert(result.error || "Gagal hapus");
+    }
+  }catch(error){
+    alert(error.message);
+  }
+}
+</script>
+
+</body>
+</html>
