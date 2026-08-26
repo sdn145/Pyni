@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PYNI — TikTok Style Admin Inbox</title>
+<style>
+*{ margin:0; padding:0; box-sizing:border-box; font-family:Arial,sans-serif; }
+body{ background:#080611; color:white; display:flex; height:100vh; overflow:hidden; }
+
+.background{ position:fixed; inset:0; z-index:-5; background:linear-gradient(180deg,rgba(7,5,16,.65),rgba(7,5,16,.95)),url("./assets/background.jpg") center/cover no-repeat; }
+
+/* ================= SIDEBAR INBOX (TIKTOK STYLE) ================= */
+.sidebar{ width:340px; background:rgba(12, 9, 24, 0.92); backdrop-filter:blur(20px); border-right:1px solid rgba(167,139,250,0.2); display:flex; flex-direction:column; z-index:10; }
+.sidebar-header{ padding:22px; border-bottom:1px solid rgba(255,255,255,0.08); font-weight:900; font-size:18px; color:#c4b5fd; display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.02);}
+.user-list{ flex:1; overflow-y:auto; padding:10px; display:flex; flex-direction:column; gap:8px;}
+
+.user-item{ padding:14px 16px; border-radius:16px; cursor:pointer; display:flex; gap:12px; align-items:center; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); transition:0.2s;}
+.user-item:hover{ background:rgba(255,255,255,0.06); border-color:rgba(167,139,250,0.3); }
+.user-item.active{ background:linear-gradient(135deg, rgba(124,58,237,0.25), rgba(236,72,153,0.25)); border:1px solid rgba(236,72,153,0.5); box-shadow:0 0 15px rgba(236,72,153,0.25); }
+
+.user-avatar{ width:44px; height:44px; border-radius:50%; background:linear-gradient(135deg, #7c3aed, #ec4899); display:grid; place-items:center; font-weight:900; font-size:16px; color:white; box-shadow:0 0 10px rgba(124,58,237,0.5);}
+
+/* ================= CHAT MAIN AREA (TIKTOK THEME INBOX) ================= */
+.chat-area{ flex:1; display:flex; flex-direction:column; background:rgba(6, 5, 12, 0.7); position:relative; height: 100vh; }
+.chat-empty{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#64748b; font-weight:bold; gap:10px;}
+.chat-empty span{ font-size:48px; }
+
+.chat-header{ padding:18px 24px; background:rgba(12, 9, 24, 0.95); backdrop-filter:blur(20px); border-bottom:1px solid rgba(167,139,250,0.2); display:flex; align-items:center; justify-content:space-between; flex-shrink: 0; }
+.chat-messages{ flex:1; padding:24px; overflow-y:auto; display:flex; flex-direction:column; gap:16px; padding-bottom: 90px; }
+
+/* TIKTOK STYLE BUBBLE */
+.msg-bubble-wrapper{ display:flex; flex-direction:column; max-width:80%; }
+.msg-user-wrapper{ align-self:flex-start; }
+.msg-admin-wrapper{ align-self:flex-end; }
+
+.msg-label{ font-size:10px; font-weight:bold; color:#94a3b8; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.5px;}
+
+.msg-tiktok{ 
+  padding:16px 20px; 
+  border-radius:20px; 
+  font-size:13px; 
+  line-height:1.6; 
+  white-space:pre-wrap; 
+  font-family:Arial, sans-serif; 
+  box-shadow:0 10px 30px rgba(0,0,0,0.5);
+  position:relative;
+}
+
+.msg-user-box { 
+  background: rgba(30, 25, 48, 0.9); 
+  border: 1px solid rgba(167, 139, 250, 0.3);
+  color: #fff;
+  border-top-left-radius: 4px;
+}
+
+.msg-admin-box { 
+  background: linear-gradient(135deg, #7c3aed, #ec4899); 
+  color: white;
+  border-top-right-radius: 4px;
+}
+
+/* FIXED BOTTOM CHAT INPUT AGAR TOMBOL BALASAN SELALU MUNCUL */
+.chat-input{ 
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px 24px; 
+  background: rgba(12, 9, 24, 0.95); 
+  backdrop-filter:blur(20px); 
+  border-top: 1px solid rgba(167,139,250,0.2); 
+  display: flex; 
+  gap: 12px; 
+  z-index: 50;
+}
+.chat-input input{ flex:1; padding:15px 22px; border-radius:18px; border:1px solid rgba(167,139,250,0.3); background:rgba(255,255,255,0.04); color:white; outline:none; font-size:14px; }
+.chat-input input:focus{ border-color:#ec4899; box-shadow:0 0 15px rgba(236,72,153,0.3); }
+.chat-input button{ padding:0 30px; border-radius:18px; background:linear-gradient(135deg, #7c3aed, #ec4899); border:none; color:white; font-weight:900; cursor:pointer; box-shadow:0 5px 20px rgba(236,72,153,0.4); transition:0.2s;}
+.chat-input button:hover{ transform:translateY(-2px); box-shadow:0 8px 25px rgba(236,72,153,0.6); }
+
+.close-btn{ background:rgba(239,68,68,0.2); color:#f87171; border:1px solid rgba(239,68,68,0.4); border-radius:50%; width:36px; height:36px; cursor:pointer; font-weight:bold; display:grid; place-items:center; transition:0.2s;}
+.close-btn:hover{ background:rgba(239,68,68,0.4); color:#fff; }
+
+@media(max-width:768px){
+  .sidebar{ width:100%; position:absolute; z-index:100; height:100%; transition:0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+  .sidebar.hidden{ transform:translateX(-100%); }
+  .chat-area{ width:100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="background"></div>
+
+<!-- ================= SIDEBAR INBOX ================= -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <span>PYNI INBOX 📩</span>
+    <button onclick="clearAllData()" style="background:none; border:none; color:#f87171; cursor:pointer; font-size:11px; font-weight:bold;">Reset Data</button>
+  </div>
+  <div class="user-list" id="userList"></div>
+</div>
+
+<!-- ================= CHAT AREA ================= -->
+<div class="chat-area" id="chatArea">
+  <div class="chat-empty" id="emptyState">
+    <span>💬</span>
+    <div>Pilih percakapan di inbox sebelah kiri untuk mulai membalas...</div>
+  </div>
+  
+  <div style="display:none; flex-direction:column; height:100%; position:relative;" id="activeChatUI">
+    <div class="chat-header">
+      
+      <!-- HEADER DENGAN TAMBAHAN TOMBOL PROFIL -->
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div style="font-weight:900; font-size:18px; color:#fff;" id="adminChatTitle">@User</div>
+        <button onclick="showUserProfile()" style="background:rgba(124,58,237,0.2); border:1px solid rgba(124,58,237,0.5); color:#c4b5fd; padding:6px 12px; border-radius:12px; font-size:11px; font-weight:bold; cursor:pointer; transition:0.2s;">Lihat Profil</button>
+      </div>
+
+      <button class="close-btn" onclick="closeChat()">✕</button>
+    </div>
+    
+    <div class="chat-messages" id="adminMessagesBox"></div>
+    
+    <div class="chat-input">
+      <input type="text" id="adminInput" placeholder="Ketik balasan admin..." onkeypress="if(event.key==='Enter') sendAdminMessage()">
+      <button onclick="sendAdminMessage()">KIRIM</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MODAL PROFIL USER ================= -->
+<div id="userProfileModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9999; place-items:center; padding:20px; backdrop-filter:blur(8px);">
+  <div style="background:linear-gradient(135deg, #1e1930, #0c0a18); border:1px solid rgba(167,139,250,0.4); border-radius:24px; padding:28px; width:min(350px, 100%); position:relative; text-align:center; box-shadow:0 25px 60px rgba(0,0,0,0.8);">
+    
+    <button onclick="closeProfileModal()" style="position:absolute; top:16px; right:18px; background:rgba(255,255,255,0.05); border:none; color:#94a3b8; font-size:18px; cursor:pointer; width:32px; height:32px; border-radius:50%; display:grid; place-items:center;">✕</button>
+    
+    <div style="font-size:45px; margin-bottom:12px;">👤</div>
+    <h3 style="color:#fff; font-size:18px; font-weight:900; margin-bottom:20px;">Profil Pengguna</h3>
+    
+    <div style="background:rgba(255,255,255,0.03); padding:18px; border-radius:16px; text-align:left; margin-bottom:20px; border:1px solid rgba(255,255,255,0.08);">
+      
+      <div style="font-size:12px; color:#94a3b8; font-weight:bold; margin-bottom:4px; text-transform:uppercase;">Username</div>
+      <div id="modalUsername" style="font-size:16px; color:#fff; font-weight:bold; margin-bottom:16px;">-</div>
+      
+      <div style="font-size:12px; color:#94a3b8; font-weight:bold; margin-bottom:4px; text-transform:uppercase;">Password</div>
+      <div id="modalPassword" style="font-size:16px; color:#ec4899; font-weight:900; letter-spacing:2px;">-</div>
+      
+    </div>
+    
+    <button onclick="closeProfileModal()" style="width:100%; padding:14px; border-radius:14px; background:linear-gradient(135deg, #7c3aed, #ec4899); border:none; color:white; font-weight:900; cursor:pointer; font-size:14px; box-shadow:0 8px 25px rgba(236,72,153,0.4);">TUTUP PROFIL</button>
+  </div>
+</div>
+
+<script>
+let activeUser = null;
+
+function loadUsers(){
+  let allChats = JSON.parse(localStorage.getItem("pyni_chats") || "{}");
+  let listEl = document.getElementById("userList");
+  let currentActive = activeUser;
+  listEl.innerHTML = "";
+
+  let users = Object.keys(allChats);
+  if(users.length === 0){
+    listEl.innerHTML = `<div style="text-align:center; color:#64748b; padding:40px 20px; font-size:12px;">Belum ada pesan masuk dari pengguna.</div>`;
+    return;
+  }
+
+  users.forEach(user => {
+    let msgs = allChats[user];
+    let lastMsgObj = msgs[msgs.length-1];
+    let lastText = lastMsgObj ? (lastMsgObj.sender === 'admin' ? 'Admin: ' : '') + lastMsgObj.text : '';
+    if(lastText.length > 28) lastText = lastText.substring(0, 28) + "...";
+
+    let div = document.createElement("div");
+    div.className = `user-item ${user === currentActive ? 'active' : ''}`;
+    div.onclick = () => openChat(user);
+    div.innerHTML = `
+      <div class="user-avatar">${user.charAt(0).toUpperCase()}</div>
+      <div style="overflow:hidden; flex:1;">
+        <div style="font-weight:900; color:#fff; font-size:14px;">@${user}</div>
+        <div style="font-size:11px; color:#94a3b8; white-space:nowrap; margin-top:2px;">${lastText}</div>
+      </div>
+    `;
+    listEl.appendChild(div);
+  });
+}
+
+function openChat(user){
+  activeUser = user;
+  document.getElementById("emptyState").style.display = "none";
+  document.getElementById("activeChatUI").style.display = "flex";
+  document.getElementById("adminChatTitle").innerText = "@" + user;
+  
+  if(window.innerWidth <= 768){
+    document.getElementById("sidebar").classList.add("hidden");
+  }
+
+  loadAdminMessages();
+  loadUsers();
+}
+
+function closeChat(){
+  activeUser = null;
+  document.getElementById("emptyState").style.display = "flex";
+  document.getElementById("activeChatUI").style.display = "none";
+  document.getElementById("sidebar").classList.remove("hidden");
+  loadUsers();
+}
+
+function loadAdminMessages(){
+  if(!activeUser) return;
+  let allChats = JSON.parse(localStorage.getItem("pyni_chats") || "{}");
+  let myChats = allChats[activeUser] || [];
+  let box = document.getElementById("adminMessagesBox");
+  
+  box.innerHTML = "";
+  myChats.forEach(c => {
+    let isAdmin = (c.sender === 'bot' || c.sender === 'admin');
+    let wrapperClass = isAdmin ? 'msg-admin-wrapper' : 'msg-user-wrapper';
+    let boxClass = isAdmin ? 'msg-admin-box' : 'msg-user-box';
+    let labelText = isAdmin ? 'PYNI BOT / ADMIN' : 'USER (' + activeUser.toUpperCase() + ')';
+    
+    let extraImg = c.img ? `<br><img src="${c.img}" style="max-width:200px; border-radius:10px; margin-top:8px; border:1px solid rgba(255,255,255,0.2);">` : '';
+    
+    box.innerHTML += `
+      <div class="msg-bubble-wrapper ${wrapperClass}">
+        <div class="msg-label">${labelText}</div>
+        <div class="msg-tiktok ${boxClass}">${c.text}${extraImg}</div>
+      </div>
+    `;
+  });
+  box.scrollTop = box.scrollHeight;
+}
+
+function sendAdminMessage(){
+  let input = document.getElementById("adminInput");
+  let text = input.value.trim();
+  if(!text || !activeUser) return;
+  input.value = "";
+
+  let allChats = JSON.parse(localStorage.getItem("pyni_chats") || "{}");
+  if(!allChats[activeUser]) allChats[activeUser] = [];
+  
+  allChats[activeUser].push({ sender: 'admin', text: text, time: Date.now() });
+  localStorage.setItem("pyni_chats", JSON.stringify(allChats));
+  
+  loadAdminMessages();
+  loadUsers();
+}
+
+function clearAllData(){
+  if(confirm("HAPUS SEMUA DATA CHAT MASUK?")){
+    localStorage.removeItem("pyni_chats");
+    closeChat();
+  }
+}
+
+// FUNGSI UNTUK MENAMPILKAN PROFIL USER
+function showUserProfile() {
+  if (!activeUser) return;
+  
+  // Ambil data akun yang dibuat user dari LocalStorage halaman utama
+  let accounts = JSON.parse(localStorage.getItem("pyni_accounts") || "{}");
+  let rawPassword = accounts[activeUser];
+  
+  let censoredPassword = "Data tidak ditemukan";
+  
+  if (rawPassword) {
+    if (rawPassword.length <= 4) {
+      // Jika password pendek, ambil huruf pertama dan terakhir saja
+      censoredPassword = rawPassword.charAt(0) + "xxxx" + rawPassword.slice(-1);
+    } else {
+      // Sensor sesuai format: 2 karakter awal + xxxx + 2 karakter akhir (contoh: piro3535 -> pixxxx35)
+      censoredPassword = rawPassword.substring(0, 2) + "xxxx" + rawPassword.substring(rawPassword.length - 2);
+    }
+  }
+
+  // Masukkan data ke dalam Modal HTML
+  document.getElementById("modalUsername").innerText = "@" + activeUser;
+  document.getElementById("modalPassword").innerText = censoredPassword;
+  
+  // Tampilkan Modal
+  document.getElementById("userProfileModal").style.display = "grid";
+}
+
+// FUNGSI UNTUK MENUTUP MODAL PROFIL
+function closeProfileModal() {
+  document.getElementById("userProfileModal").style.display = "none";
+}
+
+// Auto-refresh daftar chat inbox setiap 2 detik secara real-time
+setInterval(() => {
+  loadUsers();
+  if(activeUser) loadAdminMessages();
+}, 2000);
+
+loadUsers();
+</script>
+</body>
+</html>
